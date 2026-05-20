@@ -1,0 +1,168 @@
+"MissionControllerSettings"
+{
+	"c1m4_atrium"
+	{
+		"coop"
+		{
+			"next_mission_map" "c2m1_highway"
+		}
+		"versus"
+		{
+			"next_mission_map" "c2m1_highway"
+		}
+		"scavenge"
+		{
+			"next_map" "c6m1_riverbank"
+		}
+	}
+	"c2m5_concert"
+	{
+		"coop"
+		{
+			"next_mission_map" "c3m1_plankcountry"
+		}
+		"versus"
+		{
+			"next_mission_map" "c3m1_plankcountry"
+		}
+	}
+	"c3m4_plantation"
+	{
+		"coop"
+		{
+			"next_mission_map" "c4m1_milltown_a"
+		}
+		"versus"
+		{
+			"next_mission_map" "c4m1_milltown_a"
+		}
+	}
+	"c4m5_milltown_escape"
+	{
+		"coop"
+		{
+			"next_mission_map" "c5m1_waterfront"
+		}
+		"versus"
+		{
+			"next_mission_map" "c5m1_waterfront"
+		}
+	}
+	"c5m5_bridge"
+	{
+		"coop"
+		{
+			"next_mission_map" "c6m1_riverbank"
+		}
+		"versus"
+		{
+			"next_mission_map" "c6m1_riverbank"
+		}
+	}
+	"c6m3_port"
+	{
+		"coop"
+		{
+			"next_mission_map" "c7m1_docks"
+		}
+		"versus"
+		{
+			"next_mission_map" "c7m1_docks"
+		}
+	}
+	"c7m3_port"
+	{
+		"coop"
+		{
+			"next_mission_map" "c8m1_apartment"
+		}
+		"versus"
+		{
+			"next_mission_map" "c8m1_apartment"
+		}
+	}
+	"c8m5_rooftop"
+	{
+		"coop"
+		{
+			"next_mission_map" "c9m1_alleys"
+		}
+		"versus"
+		{
+			"next_mission_map" "c9m1_alleys"
+		}
+	}
+	"c9m2_lots"
+	{
+		"coop"
+		{
+			"next_mission_map" "c10m1_caves"
+		}
+		"versus"
+		{
+			"next_mission_map" "c10m1_caves"
+		}
+	}
+	"c10m5_houseboat"
+	{
+		"coop"
+		{
+			"next_mission_map" "c11m1_greenhouse"
+		}
+		"versus"
+		{
+			"next_mission_map" "c11m1_greenhouse"
+		}
+	}
+	"c11m5_runway"
+	{
+		"coop"
+		{
+			"next_mission_map" "c12m1_hilltop"
+		}
+		"versus"
+		{
+			"next_mission_map" "c12m1_hilltop"
+		}
+	}
+	"c12m5_cornfield"
+	{
+		"coop"
+		{
+			"next_mission_map" "c13m1_alpinecreek"
+		}
+		"versus"
+		{
+			"next_mission_map" "c13m1_alpinecreek"
+		}
+	}
+	"c13m4_cutthroatcreek"
+	{
+		"coop"
+		{
+			"next_mission_map" "c14m1_junkyard"
+		}
+		"versus"
+		{
+			"next_mission_map" "c14m1_junkyard"
+		}
+	}
+	"c14m2_lighthouse"
+	{
+		"coop"
+		{
+			"next_mission_map" "c1m1_hotel"
+		}
+		"versus"
+		{
+			"next_mission_map" "c1m1_hotel"
+		}
+	}
+	"c1m1_hotel"
+	{
+		"survival"
+		{
+			"next_map" "c2m1_highway"
+		}
+	}
+}

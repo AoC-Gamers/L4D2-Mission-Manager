@@ -1,0 +1,6 @@
+{
+  "root": [
+    "l4d2_mission_controller",
+    "l4d2_mission_manager"
+  ]
+}

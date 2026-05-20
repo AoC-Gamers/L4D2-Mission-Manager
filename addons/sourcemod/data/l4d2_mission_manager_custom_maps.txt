@@ -1,0 +1,45 @@
+"MissionManagerCustomMaps"
+{
+	"missions"
+	{
+		"dbd2dc"
+		{
+			"scavenge"
+			{
+				"ignore_invalid_maps"
+				{
+					"l4d_dbd2_undead_center"		{}
+				}
+			}
+
+			"survival"
+			{
+				"maps"
+				{
+					"l4d_deadline02"		{}
+				}
+			}
+
+			"maps"
+			{
+				// Maps accepted for every gamemode in this mission.
+			}
+		}
+
+		// "example_mission"
+		// {
+		// 	"maps"
+		// 	{
+		// 		"example_map"	{}
+		// 	}
+		//
+		// 	"versus"
+		// 	{
+		// 		"maps"
+		// 		{
+		// 			"example_map_vs"	{}
+		// 		}
+		// 	}
+		// }
+	}
+}

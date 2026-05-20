@@ -1,0 +1,260 @@
+"Phrases"
+{
+	"Tag"
+	{
+		"en"			"[{olive}MissionController{default}]"
+		"es"			"[{olive}MissionController{default}]"
+	}
+	"InGameOnly"
+	{
+		"en"			"In-game only."
+		"es"			"Solo disponible dentro del juego."
+	}
+	"GamemodeResolveFailed"
+	{
+		"en"			"Unable to resolve the current game mode."
+		"es"			"No se pudo resolver el modo de juego actual."
+	}
+	"NoMissionsForGamemode"
+	{
+		"en"			"No missions available for this game mode."
+		"es"			"No hay misiones disponibles para este modo de juego."
+	}
+	"MissionSelectionInvalid"
+	{
+		"en"			"Mission selection state is invalid."
+		"es"			"El estado de selección de misión es inválido."
+	}
+	"MissionHasNoMaps"
+	{
+		"en"			"The selected mission has no valid maps."
+		"es"			"La misión seleccionada no tiene mapas válidos."
+	}
+	"MapSelectionInvalid"
+	{
+		"en"			"Map selection state is invalid."
+		"es"			"El estado de selección de mapa es inválido."
+	}
+	"VoteAlreadyInProgress"
+	{
+		"en"			"A vote is already in progress."
+		"es"			"Ya hay una votación en progreso."
+	}
+	"VoteDelay"
+	{
+		"#format"		"{1:d}"
+		"en"			"Please wait {green}{1}{default} seconds before starting another vote."
+		"es"			"Espera {green}{1}{default} segundos antes de iniciar otra votación."
+	}
+	"VoteCreateFailed"
+	{
+		"en"			"Unable to create vote."
+		"es"			"No se pudo crear la votación."
+	}
+	"VoteStartFailed"
+	{
+		"en"			"Unable to start vote."
+		"es"			"No se pudo iniciar la votación."
+	}
+	"FinaleTriesLeft"
+	{
+		"#format"		"{1:d}"
+		"en"			"{green}{1} {default}rounds left until the next {lightgreen}campaign{default}."
+		"es"			"Quedan {green}{1} {default}rondas para seguir a la siguiente {lightgreen}campaña{default}."
+	}
+	"Finale1TryLeft"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next Campaign{default}: {olive}{1}{default}."
+		"es"			"Queda 1 ronda. Siguiente campaña{default}: {olive}{1}{default}."
+	}
+
+	"TriesLeft"
+	{
+		"#format"		"{1:d}"
+		"en"			"{green}{1} {default}rounds left in this {lightgreen}map{default}."
+		"es"			"Quedan {green}{1} {default}rondas para este {lightgreen}map{default}."
+	}
+
+	"ForcePassCampaignNoTriesLeft"
+	{
+		"#format"		"{1:d}"
+		"en"			"You couldn't pass this campaign in {green}{1}{default} rounds, switching to the {lightgreen}next campaign{default}."
+		"es"			"No pudo pasar la campaña en {green}{1}{default} rondas, cambiando a la {lightgreen}siguiente campaña{default}."
+	}
+
+	"ForcePassMapNoTriesLeft"
+	{
+		"#format"		"{1:d}"
+		"en"			"You couldn't pass this map in {green}{1}{default} rounds, switching to the {lightgreen}next level{default}."
+		"es"			"No pudo pasar este mapa en {green}{1}{default} rondas, cambiando al {lightgreen}siguiente mapa{default}."
+	}
+
+	"AnnounceMission"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next mission{default}: {olive}{1}{default}."
+		"es"			"Siguiente misión{default}: {olive}{1}{default}."
+	}
+	"AnnounceMap"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next map{default}: {olive}{1}{default}."
+		"es"			"Siguiente mapa{default}: {olive}{1}{default}."
+	}
+	"AnnounceTarget"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next target{default}: {olive}{1}{default}."
+		"es"			"Siguiente destino{default}: {olive}{1}{default}."
+	}
+	"AnnounceVoteHint"
+	{
+		"en"			"You can use {olive}!mc_vote{default} to change the next mission."
+		"es"			"Puedes usar {olive}!mc_vote{default} para cambiar la siguiente misión."
+	}
+	"VoteNextMissionUpdated"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next mission changed to {olive}{1}{default}."
+		"es"			"La siguiente misión cambió a {olive}{1}{default}."
+	}
+	"VoteNextMapUpdated"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next map changed to {olive}{1}{default}."
+		"es"			"El siguiente mapa cambió a {olive}{1}{default}."
+	}
+	"VoteNextTargetUpdated"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next target changed to {olive}{1}{default}."
+		"es"			"El siguiente destino cambió a {olive}{1}{default}."
+	}
+	"VoteTitleMission"
+	{
+		"#format"		"{1:s}"
+		"en"			"Change next mission to {1}?"
+		"es"			"Cambiar la siguiente misión a {1}?"
+	}
+	"VoteTitleMap"
+	{
+		"#format"		"{1:s}"
+		"en"			"Change next map to {1}?"
+		"es"			"Cambiar el siguiente mapa a {1}?"
+	}
+	"VoteTitleTarget"
+	{
+		"#format"		"{1:s}"
+		"en"			"Change next target to {1}?"
+		"es"			"Cambiar el siguiente destino a {1}?"
+	}
+	"VoteTitleExtendMatch"
+	{
+		"en"			"Remove the competitive map-end limit and play the real finale?"
+		"es"			"Quitar el limite competitivo por mapa y jugar el final real?"
+	}
+	"VotePassExtendMatch"
+	{
+		"en"			"Competitive map-end limit removed"
+		"es"			"Se quitó el limite competitivo por mapa"
+	}
+	"MCNextMissionCurrent"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next mission{default}: {olive}{1}{default}"
+		"es"			"Siguiente misión{default}: {olive}{1}{default}"
+	}
+	"MCNextMissionInvalid"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next mission invalid{default}: {olive}{1}{default}"
+		"es"			"Siguiente misión inválida{default}: {olive}{1}{default}"
+	}
+	"MCNextMissionMissing"
+	{
+		"en"			"No next mission configured."
+		"es"			"No hay siguiente misión configurada."
+	}
+	"MCNextMapCurrent"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next map{default}: {olive}{1}{default}"
+		"es"			"Siguiente mapa{default}: {olive}{1}{default}"
+	}
+	"MCNextMapInvalid"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next map invalid{default}: {olive}{1}{default}"
+		"es"			"Siguiente mapa inválido{default}: {olive}{1}{default}"
+	}
+	"MCNextMapMissing"
+	{
+		"en"			"No next map configured."
+		"es"			"No hay siguiente mapa configurado."
+	}
+	"MCNextTargetCurrent"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next target{default}: {olive}{1}{default}"
+		"es"			"Siguiente destino{default}: {olive}{1}{default}"
+	}
+	"MCNextTargetInvalid"
+	{
+		"#format"		"{1:s}"
+		"en"			"Next target invalid{default}: {olive}{1}{default}"
+		"es"			"Siguiente destino inválido{default}: {olive}{1}{default}"
+	}
+	"MCNextTargetMissing"
+	{
+		"en"			"No next target configured."
+		"es"			"No hay siguiente destino configurado."
+	}
+	"MatchEndMapOverrideDisabled"
+	{
+		"en"			"Competitive map-end limit disabled for this campaign."
+		"es"			"El cierre competitivo por mapa quedó desactivado para esta campaña."
+	}
+	"MatchEndMapOverrideEnabled"
+	{
+		"en"			"Competitive map-end limit enabled again."
+		"es"			"El cierre competitivo por mapa volvió a activarse."
+	}
+	"MatchEndMapOverrideUsage"
+	{
+		"en"			"Usage{default}: {olive}!mc_endmap <off|on|status>{default}"
+		"es"			"Uso{default}: {olive}!mc_endmap <off|on|status>{default}"
+	}
+	"MatchEndMapOverrideStatusUnset"
+	{
+		"en"			"No competitive map-end limit is configured."
+		"es"			"No hay un mapa de cierre competitivo configurado."
+	}
+	"MatchEndMapOverrideStatusEnabled"
+	{
+		"#format"		"{1:d}"
+		"en"			"Competitive map-end limit is active on map {green}{1}{default}."
+		"es"			"El cierre competitivo por mapa está activo en el mapa {green}{1}{default}."
+	}
+	"MatchEndMapOverrideStatusDisabled"
+	{
+		"#format"		"{1:d}"
+		"en"			"Competitive map-end limit is disabled. Configured map: {green}{1}{default}."
+		"es"			"El cierre competitivo por mapa está desactivado. Mapa configurado: {green}{1}{default}."
+	}
+	"ExtendVoteUnavailable"
+	{
+		"en"			"The competitive end-map limit is not active for this campaign."
+		"es"			"El limite competitivo por mapa no está activo para esta campaña."
+	}
+	"MatchEndMapLimitDisabled"
+	{
+		"en"			"The competitive map-end limit was removed. The real finale map will be played."
+		"es"			"Se quitó el limite competitivo por mapa. Se jugará el mapa final real."
+	}
+	"MatchEndMapLimitEnabled"
+	{
+		"en"			"The competitive map-end limit is active again."
+		"es"			"El limite competitivo por mapa volvió a activarse."
+	}
+}
