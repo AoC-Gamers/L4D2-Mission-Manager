@@ -43,6 +43,42 @@ Actualmente el repo compila:
 - `l4d2_mission_controller.sp`
 - `l4d2_mission_manager.sp`
 
+## Seleccion explicita de runtime
+
+`plugin-package-map.json` no solo define que plugins se compilan.
+
+Tambien define que archivos se copian al artifact final:
+
+- `build.plugins`
+- `artifact.addons.sourcemod.scripting.files`
+- `artifact.addons.sourcemod.scripting.dirs`
+- `artifact.addons.sourcemod.scripting.include`
+- `artifact.addons.sourcemod.translations`
+- `artifact.addons.sourcemod.data`
+- `artifact.addons.sourcemod.gamedata`
+
+Eso permite que el artifact publique solo los archivos realmente necesarios para este bundle, en vez de copiar todo `addons/sourcemod/`.
+
+`build.plugins` se define por bucket de salida. Aunque hoy solo exista `root`, el formato ya soporta subdirectorios futuros bajo `plugins/`.
+
+Cada seccion del artifact puede usar:
+
+- `files`
+- `dirs`
+- `all: true`
+
+`all: true` significa copiar completo el directorio canonico representado por esa seccion. En este repo se usa para:
+
+- `translations`
+- `data`
+- `gamedata`
+
+La separacion de `scripting` sigue la estructura canonica real del proyecto:
+
+- `files`: archivos `.sp` raiz
+- `dirs`: subdirectorios auxiliares usados por esos plugins
+- `include`: contratos publicos y dependencias locales del bundle
+
 ## WSL
 
 Si el repositorio esta bajo `/mnt/`, `build-local.py` usa automaticamente un workspace temporal Linux para evitar la penalizacion de I/O tipica de WSL sobre discos montados de Windows.

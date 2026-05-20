@@ -9,11 +9,51 @@ import time
 from pathlib import Path
 
 
-def classify_plugin(plugin_stem: str, package_map: dict) -> str | None:
-    for bucket in ("root",):
-        if plugin_stem in package_map.get(bucket, []):
+def get_build_plugin_map(manifest: dict) -> dict:
+    return manifest.get("build", {}).get("plugins", {})
+
+
+def get_artifact_manifest(manifest: dict) -> dict:
+    return (
+        manifest.get("artifact", {})
+        .get("addons", {})
+        .get("sourcemod", {})
+    )
+
+
+def classify_plugin(plugin_stem: str, plugin_map: dict) -> str | None:
+    for bucket, plugin_names in plugin_map.items():
+        if plugin_stem in plugin_names:
             return bucket
     return None
+
+
+def copy_selected_files(names: list[str], source_dir: Path, target_dir: Path, extension: str = "") -> None:
+    if not names:
+        return
+    target_dir.mkdir(parents=True, exist_ok=True)
+    for name in names:
+        filename = f"{name}{extension}" if extension else name
+        source = source_dir / filename
+        if not source.exists():
+            raise FileNotFoundError(f"Required file not found: {source}")
+        shutil.copy2(source, target_dir / filename)
+
+
+def copy_selected_directories(names: list[str], source_dir: Path, target_dir: Path) -> None:
+    if not names:
+        return
+    target_dir.mkdir(parents=True, exist_ok=True)
+    for name in names:
+        source = source_dir / name
+        if not source.exists():
+            raise FileNotFoundError(f"Required directory not found: {source}")
+        shutil.copytree(source, target_dir / name, dirs_exist_ok=True)
+
+
+def copy_manifest_section(section_manifest: dict, source_dir: Path, target_dir: Path, extension: str = "") -> None:
+    copy_selected_files(section_manifest.get("files", []), source_dir, target_dir, extension)
+    copy_selected_directories(section_manifest.get("dirs", []), source_dir, target_dir)
 
 
 def run_spcomp(spcomp: Path, source_file: Path, include_dirs: list[Path], output_file: Path, compile_log: Path) -> None:
@@ -78,7 +118,9 @@ def main() -> int:
     workspace = Path(args.workspace).resolve() if args.workspace else detect_default_workspace(root)
 
     source_mod_include_dir = spcomp.parent / 'include'
-    package_map = json.loads((root / 'plugin-package-map.json').read_text(encoding='utf-8'))
+    manifest = json.loads((root / 'plugin-package-map.json').read_text(encoding='utf-8'))
+    plugin_map = get_build_plugin_map(manifest)
+    artifact_manifest = get_artifact_manifest(manifest)
     source_root = root / 'addons' / 'sourcemod'
     scripting_dir = source_root / 'scripting'
     include_dir = scripting_dir / 'include'
@@ -110,14 +152,31 @@ def main() -> int:
 
     include_dirs = [include_dir, scripting_dir, source_mod_include_dir]
     for source_file in sorted(scripting_dir.glob('*.sp')):
-        bucket = classify_plugin(source_file.stem, package_map)
+        bucket = classify_plugin(source_file.stem, plugin_map)
         if bucket is None:
             print(f'Skipping {source_file.name}: no plugin bucket mapping', flush=True)
             continue
         output_file = plugins_root / f'{source_file.stem}.smx'
         run_spcomp(spcomp, source_file, include_dirs, output_file, compile_log)
 
-    shutil.copytree(root / 'addons', output_root / 'addons', dirs_exist_ok=True)
+    runtime_root = root / 'addons' / 'sourcemod'
+    artifact_scripting_root = artifact_root / 'scripting'
+    artifact_include_root = artifact_scripting_root / 'include'
+    scripting_manifest = artifact_manifest.get('scripting', {})
+    scripting_plugins_manifest = scripting_manifest.get('plugins', {})
+    scripting_modules_manifest = scripting_manifest.get('modules', {})
+    scripting_include_manifest = scripting_manifest.get('include', {})
+    translations_manifest = artifact_manifest.get('translations', {})
+    data_manifest = artifact_manifest.get('data', {})
+    gamedata_manifest = artifact_manifest.get('gamedata', {})
+
+    copy_manifest_section(scripting_plugins_manifest, runtime_root / 'scripting', artifact_scripting_root)
+    copy_manifest_section(scripting_modules_manifest, runtime_root / 'scripting', artifact_scripting_root)
+    copy_manifest_section(scripting_include_manifest, runtime_root / 'scripting' / 'include', artifact_include_root)
+    copy_manifest_section(translations_manifest, runtime_root / 'translations', artifact_root / 'translations')
+    copy_manifest_section(data_manifest, runtime_root / 'data', artifact_root / 'data')
+    copy_manifest_section(gamedata_manifest, runtime_root / 'gamedata', artifact_root / 'gamedata')
+
     if workspace is not None and workspace.exists():
         remove_tree_if_exists(workspace)
     print()

@@ -47,6 +47,38 @@ El controller depende del manager, pero el manager puede ser consumido por otros
 - `make artifact-windows`
 - `make artifact-linux`
 
+El artifact final no copia todo `addons/` por defecto.
+
+La seleccion de archivos runtime se define explicitamente en:
+
+- `plugin-package-map.json`
+
+Ese archivo ahora funciona como manifiesto del proyecto:
+
+- `build.plugins`
+- `artifact.addons.sourcemod.scripting`
+- `artifact.addons.sourcemod.translations`
+- `artifact.addons.sourcemod.data`
+- `artifact.addons.sourcemod.gamedata`
+
+`build.plugins` se organiza por bucket de salida, por ejemplo:
+
+- `root`
+
+Cada sección de artifact puede declarar una de estas formas:
+
+- `files`
+- `dirs`
+- `all: true`
+
+`all: true` indica que se copia completo el directorio canonico de esa seccion.
+
+Dentro de `scripting`, la estructura actual es:
+
+- `files`
+- `dirs`
+- `include`
+
 ## Documentacion
 
 - [Sistema de build](docs/build-system.md)
