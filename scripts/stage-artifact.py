@@ -16,21 +16,25 @@ def copy_if_exists(source: Path, destination: Path) -> None:
 
 
 def main() -> int:
-    if len(sys.argv) != 4:
-        raise SystemExit('Usage: stage-artifact.py <root_dir> <build_dir> <compile_log>')
+    if len(sys.argv) not in (4, 5):
+        raise SystemExit('Usage: stage-artifact.py <root_dir> <build_dir> <compile_log> [output_dir]')
+
     root_dir = Path(sys.argv[1]).resolve()
     build_dir = Path(sys.argv[2]).resolve()
     compile_log = Path(sys.argv[3]).resolve()
-    artifact_dir = root_dir / 'dist' / 'sourcemod' / 'artifact'
-    if artifact_dir.exists():
-        shutil.rmtree(artifact_dir)
-    artifact_dir.mkdir(parents=True, exist_ok=True)
-    copy_if_exists(build_dir / 'addons', artifact_dir / 'addons')
-    copy_if_exists(root_dir / 'README.md', artifact_dir / 'README.md')
-    copy_if_exists(root_dir / 'LICENSE', artifact_dir / 'LICENSE')
-    copy_if_exists(compile_log, artifact_dir / 'compile.log')
-    print(f'SourceMod artifacts generated in {artifact_dir}')
+    output_dir = Path(sys.argv[4]).resolve() if len(sys.argv) == 5 else root_dir / 'dist' / 'sourcemod' / 'artifact'
+
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    copy_if_exists(build_dir / 'addons', output_dir / 'addons')
+    copy_if_exists(root_dir / 'README.md', output_dir / 'README.md')
+    copy_if_exists(root_dir / 'LICENSE', output_dir / 'LICENSE')
+    copy_if_exists(compile_log, output_dir / 'compile.log')
+    print(f'SourceMod artifacts generated in {output_dir}')
     return 0
+
 
 if __name__ == '__main__':
     raise SystemExit(main())

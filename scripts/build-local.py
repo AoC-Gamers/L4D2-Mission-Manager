@@ -52,6 +52,11 @@ def copy_selected_directories(names: list[str], source_dir: Path, target_dir: Pa
 
 
 def copy_manifest_section(section_manifest: dict, source_dir: Path, target_dir: Path, extension: str = "") -> None:
+    if section_manifest.get("all", False):
+        if not source_dir.exists():
+            raise FileNotFoundError(f"Required directory not found: {source_dir}")
+        shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
+        return
     copy_selected_files(section_manifest.get("files", []), source_dir, target_dir, extension)
     copy_selected_directories(section_manifest.get("dirs", []), source_dir, target_dir)
 
@@ -156,23 +161,23 @@ def main() -> int:
         if bucket is None:
             print(f'Skipping {source_file.name}: no plugin bucket mapping', flush=True)
             continue
-        output_file = plugins_root / f'{source_file.stem}.smx'
+        bucket_root = plugins_root if bucket == 'root' else plugins_root / bucket
+        bucket_root.mkdir(parents=True, exist_ok=True)
+        output_file = bucket_root / f'{source_file.stem}.smx'
+        relative_output = output_file.relative_to(artifact_root)
+        print(f'Output bucket: addons/sourcemod/{relative_output.parent.as_posix()}', flush=True)
         run_spcomp(spcomp, source_file, include_dirs, output_file, compile_log)
 
     runtime_root = root / 'addons' / 'sourcemod'
     artifact_scripting_root = artifact_root / 'scripting'
-    artifact_include_root = artifact_scripting_root / 'include'
     scripting_manifest = artifact_manifest.get('scripting', {})
-    scripting_plugins_manifest = scripting_manifest.get('plugins', {})
-    scripting_modules_manifest = scripting_manifest.get('modules', {})
     scripting_include_manifest = scripting_manifest.get('include', {})
     translations_manifest = artifact_manifest.get('translations', {})
     data_manifest = artifact_manifest.get('data', {})
     gamedata_manifest = artifact_manifest.get('gamedata', {})
 
-    copy_manifest_section(scripting_plugins_manifest, runtime_root / 'scripting', artifact_scripting_root)
-    copy_manifest_section(scripting_modules_manifest, runtime_root / 'scripting', artifact_scripting_root)
-    copy_manifest_section(scripting_include_manifest, runtime_root / 'scripting' / 'include', artifact_include_root)
+    copy_manifest_section(scripting_manifest, runtime_root / 'scripting', artifact_scripting_root)
+    copy_manifest_section(scripting_include_manifest, runtime_root / 'scripting' / 'include', artifact_scripting_root / 'include')
     copy_manifest_section(translations_manifest, runtime_root / 'translations', artifact_root / 'translations')
     copy_manifest_section(data_manifest, runtime_root / 'data', artifact_root / 'data')
     copy_manifest_section(gamedata_manifest, runtime_root / 'gamedata', artifact_root / 'gamedata')

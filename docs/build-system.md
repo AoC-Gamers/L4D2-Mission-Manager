@@ -16,6 +16,7 @@ Este repositorio usa el mismo enfoque de build local y CI aplicado en otros repo
 - `scripts/fetch-sourcemod.py`
 - `scripts/build-local.py`
 - `scripts/stage-artifact.py`
+- `scripts/package-release.py`
 - `scripts/ci-build-sourcemod.sh`
 - `scripts/ci-validate-artifact.sh`
 - `scripts/ci-package-release-assets.sh`
@@ -23,12 +24,10 @@ Este repositorio usa el mismo enfoque de build local y CI aplicado en otros repo
 
 ## Targets
 
-- `make deps-windows`
-- `make deps-linux`
-- `make build-windows`
-- `make build-linux`
-- `make artifact-windows`
-- `make artifact-linux`
+- `make deps-smx`
+- `make build-smx`
+- `make package-smx`
+- `make release`
 - `make clean`
 - `make clean-all`
 
@@ -85,11 +84,18 @@ Si el repositorio esta bajo `/mnt/`, `build-local.py` usa automaticamente un wor
 
 ## CI
 
-El workflow usa tres etapas logicas en un solo job:
+El workflow separa el camino `smx` en jobs explicitos:
 
-- deps
-- build
-- artifact
+- `deps-smx`
+- `build-smx`
+- `release`
+
+Eso deja el flujo local y el de CI alineados sobre el mismo modelo:
+
+- resolver dependencias
+- compilar
+- preparar el arbol runtime
+- generar el ZIP final
 
 Y publica:
 

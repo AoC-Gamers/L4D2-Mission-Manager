@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import platform as py_platform
 import shutil
 import tarfile
 import urllib.request
@@ -14,6 +15,15 @@ def build_url(platform: str, version: str) -> str:
     if platform == "linux":
         return f"https://www.sourcemod.net/latest.php?os=linux&version={version}"
     raise ValueError(f"Unsupported platform: {platform}")
+
+
+def detect_platform() -> str:
+    system = py_platform.system().lower()
+    if system.startswith("win"):
+        return "windows"
+    if system == "linux":
+        return "linux"
+    raise RuntimeError(f"Unsupported platform: {py_platform.system()}")
 
 
 def download(url: str, destination: Path) -> None:
@@ -38,18 +48,19 @@ def extract_archive(archive_path: Path, output_dir: Path, platform: str) -> None
 def main() -> int:
     parser = argparse.ArgumentParser(description="Download and extract SourceMod compiler dependencies.")
     parser.add_argument("--root", default=".")
-    parser.add_argument("--platform", choices=("windows", "linux"), required=True)
+    parser.add_argument("--platform", choices=("windows", "linux"))
     parser.add_argument("--version", default="1.12")
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
     deps_dir = root / "deps"
-    archive_name = "sourcemod-windows.zip" if args.platform == "windows" else "sourcemod-linux.tar.gz"
-    extract_dir = deps_dir / f"sourcemod-{args.platform}"
+    platform = args.platform or detect_platform()
+    archive_name = "sourcemod-windows.zip" if platform == "windows" else "sourcemod-linux.tar.gz"
+    extract_dir = deps_dir / f"sourcemod-{platform}"
     archive_path = deps_dir / archive_name
-    download(build_url(args.platform, args.version), archive_path)
-    extract_archive(archive_path, extract_dir, args.platform)
-    print(f"SourceMod {args.platform} extracted to: {extract_dir}")
+    download(build_url(platform, args.version), archive_path)
+    extract_archive(archive_path, extract_dir, platform)
+    print(f"SourceMod {platform} extracted to: {extract_dir}")
     return 0
 
 if __name__ == "__main__":

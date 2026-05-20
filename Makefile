@@ -1,33 +1,35 @@
+ifeq ($(OS),Windows_NT)
 PYTHON ?= python
-PYTHON3 ?= python3
+SMX_PLATFORM ?= windows
 SPCOMP ?= deps/sourcemod-windows/addons/sourcemod/scripting/spcomp.exe
-LINUX_SPCOMP ?= deps/sourcemod-linux/addons/sourcemod/scripting/spcomp
+else
+PYTHON ?= $(shell command -v python3 >/dev/null 2>&1 && echo python3 || echo python)
+SMX_PLATFORM ?= linux
+SPCOMP ?= deps/sourcemod-linux/addons/sourcemod/scripting/spcomp
+endif
+
 SOURCEMOD_VERSION ?= 1.12
+SMX_BUILD_DIR ?= .build/smx
+SMX_PACKAGE_DIR ?= .build/package-smx
+RELEASE_BASENAME ?= l4d2-mission-manager-local
 
-.PHONY: deps-windows deps-linux build-windows build-linux artifact-windows artifact-linux clean clean-all
+.PHONY: deps-smx build-smx package-smx release clean clean-all
 
-deps-windows:
-	$(PYTHON) ./scripts/fetch-sourcemod.py --root . --platform windows --version "$(SOURCEMOD_VERSION)"
+deps-smx:
+	$(PYTHON) ./scripts/fetch-sourcemod.py --root . --platform "$(SMX_PLATFORM)" --version "$(SOURCEMOD_VERSION)"
 
-deps-linux:
-	$(PYTHON3) ./scripts/fetch-sourcemod.py --root . --platform linux --version "$(SOURCEMOD_VERSION)"
+build-smx:
+	$(PYTHON) ./scripts/build-local.py --root . --spcomp "$(SPCOMP)" --output-root "$(SMX_BUILD_DIR)" --compile-log deps/build-smx-compile.log
 
-build-windows:
-	$(PYTHON) ./scripts/build-local.py --root . --spcomp "$(SPCOMP)" --output-root build-windows --compile-log deps/build-windows-compile.log
+package-smx:
+	$(PYTHON) ./scripts/stage-artifact.py . "$(SMX_BUILD_DIR)" "deps/build-smx-compile.log" "$(SMX_PACKAGE_DIR)"
 
-build-linux:
-	$(PYTHON3) ./scripts/build-local.py --root . --spcomp "$(LINUX_SPCOMP)" --output-root build-linux --compile-log deps/build-linux-compile.log
-
-artifact-windows:
-	$(MAKE) build-windows
-	$(PYTHON) ./scripts/stage-artifact.py . ./build-windows ./deps/build-windows-compile.log
-
-artifact-linux:
-	$(MAKE) build-linux
-	$(PYTHON3) ./scripts/stage-artifact.py . ./build-linux ./deps/build-linux-compile.log
+release:
+	$(PYTHON) ./scripts/stage-artifact.py . "$(SMX_PACKAGE_DIR)" "deps/build-smx-compile.log"
+	$(PYTHON) ./scripts/package-release.py --root . --basename "$(RELEASE_BASENAME)"
 
 clean:
-	cmd /c "if exist build-windows rmdir /s /q build-windows & if exist build-linux rmdir /s /q build-linux & if exist dist rmdir /s /q dist"
+	$(PYTHON) -c "import shutil, pathlib; [shutil.rmtree(p, ignore_errors=True) for p in map(pathlib.Path, ['.build', 'dist'])]"
 
 clean-all:
-	cmd /c "if exist build-windows rmdir /s /q build-windows & if exist build-linux rmdir /s /q build-linux & if exist dist rmdir /s /q dist & if exist deps rmdir /s /q deps"
+	$(PYTHON) -c "import shutil, pathlib; [shutil.rmtree(p, ignore_errors=True) for p in map(pathlib.Path, ['.build', 'dist', 'deps'])]"

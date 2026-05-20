@@ -40,12 +40,10 @@ El controller depende del manager, pero el manager puede ser consumido por otros
 
 ## Build
 
-- `make deps-windows`
-- `make deps-linux`
-- `make build-windows`
-- `make build-linux`
-- `make artifact-windows`
-- `make artifact-linux`
+- `make deps-smx`
+- `make build-smx`
+- `make package-smx`
+- `make release`
 
 El artifact final no copia todo `addons/` por defecto.
 
@@ -78,6 +76,13 @@ Dentro de `scripting`, la estructura actual es:
 - `files`
 - `dirs`
 - `include`
+
+El flujo actual separa claramente:
+
+- dependencias de compilacion (`deps-smx`)
+- compilacion (`build-smx`)
+- empaquetado del arbol runtime (`package-smx`)
+- generacion del ZIP final (`release`)
 
 ## Documentacion
 
