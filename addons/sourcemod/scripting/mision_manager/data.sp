@@ -336,17 +336,9 @@ public int Native_GetMissionLocalizedName(Handle plugin, int numParams)
 	char localizedName[LEN_LOCALIZED_NAME];
 	if (MM_TryGetLocalizedPhrase(missionName, client, localizedName, sizeof(localizedName)))
 	{
-		ArrayList missionLocalizedList = MM_GetMissionLocalizedList(gamemode);
-		missionLocalizedList.Set(missionIndex, 1, 0);
 		if (SetNativeString(3, localizedName, length, false) != SP_ERROR_NONE)
 			return -1;
 		return 1;
-	}
-
-	ArrayList missionLocalizedList = MM_GetMissionLocalizedList(gamemode);
-	if (missionLocalizedList.Get(missionIndex) > 0)
-	{
-		missionLocalizedList.Set(missionIndex, 0, 0);
 	}
 
 	if (SetNativeString(3, missionName, length, false) != SP_ERROR_NONE)
@@ -475,17 +467,9 @@ public int Native_GetMapLocalizedName(Handle plugin, int numParams)
 	char localizedName[LEN_LOCALIZED_NAME];
 	if (MM_TryGetLocalizedPhrase(mapFileName, client, localizedName, sizeof(localizedName)))
 	{
-		ArrayList mapLocalizedList = MM_GetMapLocalizedList(gamemode);
-		mapLocalizedList.Set(offset + mapIndex, 1, 0);
 		if (SetNativeString(4, localizedName, length, false) != SP_ERROR_NONE)
 			return -1;
 		return 1;
-	}
-
-	ArrayList mapLocalizedList = MM_GetMapLocalizedList(gamemode);
-	if (mapLocalizedList.Get(offset + mapIndex) > 0)
-	{
-		mapLocalizedList.Set(offset + mapIndex, 0, 0);
 	}
 
 	if (SetNativeString(4, mapFileName, length, false) != SP_ERROR_NONE)
@@ -588,5 +572,4 @@ public int Native_GetInvalidMissionName(Handle plugin, int numParams)
 
 	return 0;
 }
-
 

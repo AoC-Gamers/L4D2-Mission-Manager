@@ -24,6 +24,8 @@ Aporta:
 - resolucion localizada por cliente
 - fallback controlado para mapas o campanas desconocidas
 
+Este repositorio usa esta biblioteca como fuente principal de localizacion para el mission manager, asi que ya no depende de `translations/maps.phrases.txt` para resolver nombres de campanas o capitulos.
+
 ### `l4d2_mission_manager.inc`
 
 Contrato publico del mission manager.
@@ -72,7 +74,7 @@ Aporta helpers para obtener traducciones Valve y manejar idioma de cliente/servi
 
 Necesaria por `campaign_manager.inc`.
 
-Aporta cache y acceso a traducciones del juego para resolucion dinamica de nombres.
+Aporta cache y acceso a traducciones del juego para resolucion dinamica de nombres en runtime.
 
 ### `left4dhooks_stocks.inc`
 

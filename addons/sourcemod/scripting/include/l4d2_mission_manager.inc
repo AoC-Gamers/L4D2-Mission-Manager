@@ -107,8 +107,8 @@ native int L4D2MM_GetMapName(int gamemode, int missionIndex, int mapIndex, char[
  * @param length        Maximum size of the output buffer.
  * @param client        Client whose language should be used for localization.
  * @return              1 on success, 0 if no localization exists, or -1 on error.
+ * @note                Localization is resolved dynamically through campaign_manager.
  * @note                Map names are normalized to lower case internally.
- * @note                Entries in maps.phrases.txt must use lower-case ASCII names.
  */
 native int L4D2MM_GetMapLocalizedName(int gamemode, int missionIndex, int mapIndex, char[] mapName, int length, int client);
 /**
@@ -194,4 +194,3 @@ public void __pl_l4d2_mission_manager_SetNTVOptional()
 	MarkNativeAsOptional("L4D2MM_GetInvalidMissionName");
 }
 #endif
-

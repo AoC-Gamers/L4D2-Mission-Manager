@@ -42,19 +42,8 @@ bool MM_TryGetLocalizedPhrase(const char[] phrase, int client, char[] output, in
 		return true;
 	}
 
-	if (!TranslationPhraseExists(phrase))
-	{
-		return false;
-	}
-
-	int language = (client == LANG_SERVER || client <= 0) ? GetServerLanguage() : GetClientLanguage(client);
-	if (!IsTranslatedForLanguage(phrase, language))
-	{
-		return false;
-	}
-
-	Format(output, length, "%T", phrase, client);
-	return true;
+	strcopy(output, length, phrase);
+	return false;
 }
 
 bool MM_TryResolveManagedLocalization(const char[] phrase, int client, char[] output, int length)
@@ -267,5 +256,4 @@ int String_ToLower(const char[] input, char[] output, int size)
 
 	return x + 1;
 }
-
 

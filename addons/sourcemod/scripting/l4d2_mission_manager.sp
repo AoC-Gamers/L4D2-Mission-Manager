@@ -24,7 +24,6 @@ Localizer g_hMissionManagerLocalizer = null;
 #include "mision_manager/utils.sp"
 #include "mision_manager/data.sp"
 #include "mision_manager/parser.sp"
-#include "mision_manager/localization.sp"
 #include "mision_manager/commands.sp"
 
 public Plugin myinfo =
@@ -79,10 +78,6 @@ public void OnPluginStart()
 	MM_InitLists();
 	MM_LoadCustomMapOverrides();
 	ParseMissions();
-	ParseLocalization(GAMEMODE_COOP);
-	ParseLocalization(GAMEMODE_VERSUS);
-	ParseLocalization(GAMEMODE_SCAVENGE);
-	ParseLocalization(GAMEMODE_SURVIVAL);
 
 	MM_FireEvent_OnL4D2MMUpdateList();
 
@@ -106,7 +101,6 @@ void MM_DebugLog(const char[] format, any ...)
 public void OnPluginEnd()
 {
 	MM_FreeLists();
-	MM_FreeLocalizedLists();
 	delete g_fwdOnL4D2MMUpdateList;
 	delete g_hMissionManagerLocalizer;
 	delete g_smIgnoredInvalidMaps;
@@ -117,5 +111,3 @@ public void OnPluginEnd()
 	g_smIgnoredInvalidMaps = null;
 	g_smCustomMaps = null;
 }
-
-

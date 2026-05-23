@@ -15,9 +15,11 @@ Responsabilidades principales:
 
 - descubrir misiones y mapas
 - exponer natives para consultar indices, nombres y cantidades
-- resolver nombres localizados de campanas y mapas
+- resolver nombres localizados de campanas y mapas de forma dinamica
 - soportar mapas custom y exclusiones configurables
 - entregar una API reutilizable para otros plugins
+
+La localizacion de campanas y capitulos se resuelve en runtime con `campaign_manager` y su `Localizer`, sin depender de `translations/maps.phrases.txt`.
 
 ### `l4d2_mission_controller`
 
