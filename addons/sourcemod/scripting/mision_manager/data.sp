@@ -17,7 +17,7 @@ void MM_LoadCustomMapOverrides()
 	KeyValues kv = new KeyValues("MissionManagerCustomMaps");
 	if (!kv.ImportFromFile(path))
 	{
-		MM_DebugLog("Custom map override config not found path=%s", path);
+		MM_Debug(MM_Debug_Data, "Custom map override config not found path=%s", path);
 		delete kv;
 		return;
 	}
@@ -38,7 +38,7 @@ void MM_LoadCustomMapOverrides()
 	}
 
 	delete kv;
-	MM_DebugLog("Loaded custom map overrides count=%d path=%s", loaded, path);
+	MM_Debug(MM_Debug_Data, "Loaded custom map overrides count=%d path=%s", loaded, path);
 }
 
 int MM_LoadCustomMapsFromGamemodeScopes(KeyValues kv, const char[] missionName)
@@ -167,6 +167,7 @@ void MM_RegisterScopedMapKey(StringMap store, const char[] mapFile, const char[]
 	}
 
 	store.SetValue(overrideKey, 1, true);
+	MM_Debug(MM_Debug_Data, "register_scoped_map_key key=%s", overrideKey);
 }
 
 bool MM_HasScopedMapKey(StringMap store, const char[] mapFile, const char[] missionName, int gamemode)
@@ -287,7 +288,9 @@ public int Native_FindMissionIndexByName(Handle plugin, int numParams)
 	if (missionNameList == null)
 		return -1;
 
-	return missionNameList.FindString(missionName);
+	int missionIndex = missionNameList.FindString(missionName);
+	MM_Debug(MM_Debug_Api, "native_find_mission gamemode=%d mission=%s result=%d", gamemode, missionName, missionIndex);
+	return missionIndex;
 }
 
 public int Native_GetMissionName(Handle plugin, int numParams)
@@ -392,7 +395,10 @@ public int Native_FindMapIndexByName(Handle plugin, int numParams)
 
 	int mapPos = mapList.FindString(mapName);
 	if (mapPos < 0)
+	{
+		MM_Debug(MM_Debug_Api, "native_find_map gamemode=%d map=%s result=-1", gamemode, mapName);
 		return -1;
+	}
 
 	int startMapIndex = 0;
 	for (int nextMissionIndex = 1; nextMissionIndex < mapList.Length + 1; nextMissionIndex++)
@@ -402,12 +408,14 @@ public int Native_FindMapIndexByName(Handle plugin, int numParams)
 		if (startMapIndex <= mapPos && mapPos < nextStartMapIndex)
 		{
 			SetNativeCellRef(2, nextMissionIndex - 1);
+			MM_Debug(MM_Debug_Api, "native_find_map gamemode=%d map=%s mission=%d map_index=%d", gamemode, mapName, nextMissionIndex - 1, mapPos - startMapIndex);
 			return mapPos - startMapIndex;
 		}
 
 		startMapIndex = nextStartMapIndex;
 	}
 
+	MM_Debug(MM_Debug_Api, "native_find_map gamemode=%d map=%s result=-1", gamemode, mapName);
 	return -1;
 }
 
@@ -572,4 +580,3 @@ public int Native_GetInvalidMissionName(Handle plugin, int numParams)
 
 	return 0;
 }
-

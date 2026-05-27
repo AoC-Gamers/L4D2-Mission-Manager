@@ -1,0 +1,149 @@
+"Phrases"
+{
+	"Tag"
+	{
+		"en"			"[MissionManager]"
+		"es"			"[MissionManager]"
+	}
+	"HelpHeader"
+	{
+		"en"			"Available commands:"
+		"es"			"Comandos disponibles:"
+	}
+	"HelpSentToConsole"
+	{
+		"en"			"Information sent to your console."
+		"es"			"Informacion enviada a tu consola."
+	}
+	"InvalidGamemode"
+	{
+		"#format"		"{1:s}"
+		"en"			"Invalid gamemode: {1}"
+		"es"			"Modo de juego invalido: {1}"
+	}
+	"InvalidMissionsHeader"
+	{
+		"#format"		"{1:d}"
+		"en"			"Invalid missions (count: {1}):"
+		"es"			"Misiones invalidas (cantidad: {1}):"
+	}
+	"CurrentMissionResolveFailed"
+	{
+		"en"			"Could not resolve the current mission."
+		"es"			"No se pudo resolver la mision actual."
+	}
+	"MissionNotFound"
+	{
+		"#format"		"{1:s}"
+		"en"			"Mission not found: {1}"
+		"es"			"Mision no encontrada: {1}"
+	}
+	"CurrentMapResolveFailed"
+	{
+		"en"			"Could not resolve the current map."
+		"es"			"No se pudo resolver el mapa actual."
+	}
+	"MapNotFound"
+	{
+		"#format"		"{1:s}"
+		"en"			"Map not found: {1}"
+		"es"			"Mapa no encontrado: {1}"
+	}
+	"ListGamemodeHeader"
+	{
+		"#format"		"{1:s},{2:d}"
+		"en"			"Gamemode = {1} ({2} missions)"
+		"es"			"Modo = {1} ({2} misiones)"
+	}
+	"ListMissionEntryLocalized"
+	{
+		"#format"		"{1:d},{2:s},{3:s},{4:d}"
+		"en"			"{1}. {2} <{3}> {4} maps"
+		"es"			"{1}. {2} <{3}> {4} mapas"
+	}
+	"ListMissionEntryFallback"
+	{
+		"#format"		"{1:d},{2:s},{3:d}"
+		"en"			"{1}. !! <{2}> ({3} maps)"
+		"es"			"{1}. !! <{2}> ({3} mapas)"
+	}
+	"ListMapEntryLocalized"
+	{
+		"#format"		"{1:d},{2:s},{3:s}"
+		"en"			"> {1}. {2} <{3}>"
+		"es"			"> {1}. {2} <{3}>"
+	}
+	"ListMapEntryFallback"
+	{
+		"#format"		"{1:d},{2:s}"
+		"en"			"> {1}. !! <{2}>"
+		"es"			"> {1}. !! <{2}>"
+	}
+	"MissionDetailsHeader"
+	{
+		"#format"		"{1:s},{2:s},{3:d},{4:d}"
+		"en"			"Mission {1} | gamemode={2} | index={3} | maps={4}"
+		"es"			"Mision {1} | modo={2} | indice={3} | mapas={4}"
+	}
+	"MissionLocalizedName"
+	{
+		"#format"		"{1:s}"
+		"en"			"Localized name: {1}"
+		"es"			"Nombre localizado: {1}"
+	}
+	"MissionMapEntryLocalized"
+	{
+		"#format"		"{1:d},{2:s},{3:s}"
+		"en"			"{1}. {2} <{3}>"
+		"es"			"{1}. {2} <{3}>"
+	}
+	"MissionMapEntryFallback"
+	{
+		"#format"		"{1:d},{2:s}"
+		"en"			"{1}. {2}"
+		"es"			"{1}. {2}"
+	}
+	"MapDetailsHeader"
+	{
+		"#format"		"{1:s},{2:s},{3:s},{4:d},{5:d},{6:d}"
+		"en"			"Map {1} | gamemode={2} | mission={3} | map_index={4}/{5} | uid={6}"
+		"es"			"Mapa {1} | modo={2} | mision={3} | indice_mapa={4}/{5} | uid={6}"
+	}
+	"MapMissionLocalized"
+	{
+		"#format"		"{1:s}"
+		"en"			"Mission localized: {1}"
+		"es"			"Mision localizada: {1}"
+	}
+	"MapLocalizedName"
+	{
+		"#format"		"{1:s}"
+		"en"			"Map localized: {1}"
+		"es"			"Mapa localizado: {1}"
+	}
+	"Separator"
+	{
+		"en"			"-------------------"
+		"es"			"-------------------"
+	}
+	"HelpList"
+	{
+		"en"			"sm_mm_list [coop|versus|scavenge|survival|invalid] - List missions and maps."
+		"es"			"sm_mm_list [coop|versus|scavenge|survival|invalid] - Lista misiones y mapas."
+	}
+	"HelpMission"
+	{
+		"en"			"sm_mm_mission [mission_code_or_localized_name] [gamemode] - Show mission details."
+		"es"			"sm_mm_mission [codigo_de_mision_o_nombre_localizado] [gamemode] - Muestra detalles de la mision."
+	}
+	"HelpMap"
+	{
+		"en"			"sm_mm_map [map_code] [gamemode] - Show map details."
+		"es"			"sm_mm_map [codigo_de_mapa] [gamemode] - Muestra detalles del mapa."
+	}
+	"HelpHelp"
+	{
+		"en"			"sm_mm_help - Display this help."
+		"es"			"sm_mm_help - Muestra esta ayuda."
+	}
+}

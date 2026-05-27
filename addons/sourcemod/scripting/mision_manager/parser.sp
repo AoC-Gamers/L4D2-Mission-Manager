@@ -227,7 +227,7 @@ void ParseMissions()
 {
 	DirectoryListing dirList;
 	dirList = OpenDirectory("missions", true, NULL_STRING);
-	MM_DebugLog("OpenDirectory path=missions use_valve_fs=1 success=%d", dirList != null);
+	MM_Debug(MM_Debug_Parse, "OpenDirectory path=missions use_valve_fs=1 success=%d", dirList != null);
 
 	if (dirList == null)
 	{
@@ -252,11 +252,12 @@ void ParseMissions()
 			{
 				FormatEx(missionPath, sizeof(missionPath), "missions/%s", missionFileName);
 
-				if (g_cvDebug != null && g_cvDebug.BoolValue)
+				if (MM_IsDebugEnabled(MM_Debug_Parse))
 				{
 					File missionFileFs = OpenFile(missionPath, "rt", false);
 					File missionFileValve = OpenFile(missionPath, "rt", true);
-					MM_DebugLog(
+					MM_Debug(
+						MM_Debug_Parse,
 						"Mission parse candidate name=%s path=%s exists_fs=%d open_fs=%d open_valve=%d",
 						missionFileName,
 						missionPath,
@@ -277,6 +278,10 @@ void ParseMissions()
 					g_hStr_InvalidMissionNames.PushString(missionPath);
 					LogToFile(g_sLogPath, "An error occured while parsing %s, code:%d, line:%d, col:%d", missionPath, err, line, col);
 				}
+				else
+				{
+					MM_Debug(MM_Debug_Parse, "Mission parsed successfully path=%s", missionPath);
+				}
 			}
 		}
 
@@ -288,5 +293,4 @@ void ParseMissions()
 		g_hStrMap_FileName = null;
 	}
 }
-
 

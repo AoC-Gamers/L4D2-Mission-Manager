@@ -15,7 +15,7 @@ SMCError MM_ParseValveFsFile(SMCParser parser, const char[] path, int &line = 0,
 
 	if (fileSize >= MM_MAX_MISSION_FILE_SIZE)
 	{
-		MM_DebugLog("ParseValveFsFile path=%s rejected size=%d max=%d", path, fileSize, MM_MAX_MISSION_FILE_SIZE - 1);
+		MM_Debug(MM_Debug_Parse, "ParseValveFsFile path=%s rejected size=%d max=%d", path, fileSize, MM_MAX_MISSION_FILE_SIZE - 1);
 		delete file;
 		return SMCError_StreamError;
 	}
@@ -31,7 +31,7 @@ SMCError MM_ParseValveFsFile(SMCParser parser, const char[] path, int &line = 0,
 
 	bytesRead = MM_SanitizeMissionContents(fileContents, bytesRead);
 	fileContents[bytesRead] = '\0';
-	MM_DebugLog("ParseValveFsFile path=%s size=%d bytesRead=%d", path, fileSize, bytesRead);
+	MM_Debug(MM_Debug_Parse, "ParseValveFsFile path=%s size=%d bytesRead=%d", path, fileSize, bytesRead);
 	return parser.ParseString(fileContents, line, col);
 }
 
@@ -39,10 +39,12 @@ bool MM_TryGetLocalizedPhrase(const char[] phrase, int client, char[] output, in
 {
 	if (MM_TryResolveManagedLocalization(phrase, client, output, length))
 	{
+		MM_Debug(MM_Debug_Localization, "localized_phrase_resolved phrase=%s client=%d output=%s", phrase, client, output);
 		return true;
 	}
 
 	strcopy(output, length, phrase);
+	MM_Debug(MM_Debug_Localization, "localized_phrase_fallback phrase=%s client=%d", phrase, client);
 	return false;
 }
 
@@ -50,6 +52,7 @@ bool MM_TryResolveManagedLocalization(const char[] phrase, int client, char[] ou
 {
 	if (g_hMissionManagerLocalizer == null || !g_hMissionManagerLocalizer.IsReady())
 	{
+		MM_Debug(MM_Debug_Localization, "localizer_unavailable phrase=%s client=%d", phrase, client);
 		return false;
 	}
 
@@ -174,7 +177,7 @@ int MM_SanitizeMissionContents(char[] buffer, int length)
 			int nextSignificantLineStart = MM_FindNextSignificantLineStart(buffer, hasNewLine ? lineEnd + 1 : lineEnd, length);
 			if (nextSignificantLineStart == -1 || buffer[nextSignificantLineStart] == '}')
 			{
-				MM_DebugLog("SanitizeMissionContents dropped dangling section header before closing brace at offset=%d", lineStart);
+				MM_Debug(MM_Debug_Parse, "SanitizeMissionContents dropped dangling section header before closing brace at offset=%d", lineStart);
 				lineStart = hasNewLine ? lineEnd + 1 : lineEnd;
 				continue;
 			}
@@ -256,4 +259,3 @@ int String_ToLower(const char[] input, char[] output, int size)
 
 	return x + 1;
 }
-

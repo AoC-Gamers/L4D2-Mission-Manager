@@ -9,7 +9,8 @@
 
 char g_sLogPath[PLATFORM_MAX_PATH];
 
-#define LOGNAME "mission_manager"
+#define LOG_FILE "logs/sm_mm.log"
+#define PHRASES_FILE "l4d2_mission_manager.phrases"
 #define MM_MAX_MISSION_FILE_SIZE 16384
 #define MM_CUSTOM_MAPS_CONFIG "data/l4d2_mission_manager_custom_maps.txt"
 #define COUNT_MM_GAMEMODE 4
@@ -19,6 +20,17 @@ GlobalForward g_fwdOnL4D2MMUpdateList = null;
 StringMap g_smCustomMaps = null;
 StringMap g_smIgnoredInvalidMaps = null;
 Localizer g_hMissionManagerLocalizer = null;
+
+enum MMDebugCategory
+{
+	MM_Debug_None		 = 0,
+	MM_Debug_Core		 = 1 << 0,
+	MM_Debug_Parse		 = 1 << 1,
+	MM_Debug_Data		 = 1 << 2,
+	MM_Debug_Api		 = 1 << 3,
+	MM_Debug_Command	 = 1 << 4,
+	MM_Debug_Localization = 1 << 5
+}
 
 #include "mision_manager/gamemode.sp"
 #include "mision_manager/utils.sp"
@@ -65,15 +77,16 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("L4D2MM_GetInvalidMissionName", Native_GetInvalidMissionName);
 
 	g_fwdOnL4D2MMUpdateList = CreateGlobalForward("OnL4D2MMUpdateList", ET_Ignore);
-	RegPluginLibrary("l4d2_mission_manager");
+	RegPluginLibrary(LIBRARY_L4D2MISSIONMANAGER);
 
+	BuildPath(Path_SM, g_sLogPath, sizeof(g_sLogPath), LOG_FILE);
 	return APLRes_Success;
 }
 
 public void OnPluginStart()
 {
-	BuildPath(Path_SM, g_sLogPath, sizeof(g_sLogPath), "logs/%s.log", LOGNAME);
-	g_cvDebug = CreateConVar("l4d2_mission_manager_debug", "0", "Enable debug logging for l4d2_mission_manager.", FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	LoadTranslations(PHRASES_FILE);
+	g_cvDebug = CreateConVar("sm_mm_debug", "0", "Debug bitmask for l4d2_mission_manager. 0=None 1=Core 2=Parse 4=Data 8=Api 16=Command 32=Localization 63=all.", FCVAR_NOTIFY, true, 0.0, true, 63.0);
 	g_hMissionManagerLocalizer = new Localizer(LC_INSTALL_MODE_FULLCACHE);
 	MM_InitLists();
 	MM_LoadCustomMapOverrides();
@@ -84,22 +97,37 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_mm_list", Command_List, "Usage: sm_mm_list [<coop|versus|scavenge|survival|invalid>]");
 	RegConsoleCmd("sm_mm_mission", Command_MissionInfo, "Usage: sm_mm_mission [<mission_code_or_localized_name>] [<coop|versus|scavenge|survival>]");
 	RegConsoleCmd("sm_mm_map", Command_MapInfo, "Usage: sm_mm_map [<map_code>] [<coop|versus|scavenge|survival>]");
+	RegConsoleCmd("sm_mm_help", Command_Help, "Display available mission manager commands.");
+
+	MM_Debug(MM_Debug_Core, "Lifecycle: OnPluginStart");
 }
 
-void MM_DebugLog(const char[] format, any ...)
+bool MM_IsDebugEnabled(MMDebugCategory category)
 {
-	if (!g_cvDebug.BoolValue)
+	if (g_cvDebug == null)
+	{
+		return false;
+	}
+
+	int mask = g_cvDebug.IntValue;
+	return (mask & view_as<int>(category)) != 0;
+}
+
+void MM_Debug(MMDebugCategory category, const char[] format, any ...)
+{
+	if (!MM_IsDebugEnabled(category))
 	{
 		return;
 	}
 
 	char buffer[512];
-	VFormat(buffer, sizeof(buffer), format, 2);
-	LogToFile(g_sLogPath, "[debug] %s", buffer);
+	VFormat(buffer, sizeof(buffer), format, 3);
+	LogToFileEx(g_sLogPath, "tick=%d %s", GetGameTickCount(), buffer);
 }
 
 public void OnPluginEnd()
 {
+	MM_Debug(MM_Debug_Core, "Lifecycle: OnPluginEnd");
 	MM_FreeLists();
 	delete g_fwdOnL4D2MMUpdateList;
 	delete g_hMissionManagerLocalizer;

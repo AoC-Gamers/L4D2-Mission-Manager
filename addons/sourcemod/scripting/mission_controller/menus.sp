@@ -15,7 +15,7 @@ void MC_ResetClientMenuState(int client)
 
 void MC_TryAttachAdminMenu()
 {
-	if (!g_bAdminMenuAvailable)
+	if (!g_ServerRuntime.hasAdminMenu)
 		return;
 
 	TopMenu topMenu = GetAdminTopMenu();
@@ -351,7 +351,7 @@ bool MC_StartExtendMatchVote(int client)
 	}
 
 	char title[192];
-	Format(title, sizeof(title), "%T", "VoteTitleExtendMatch", client);
+	Format(title, sizeof(title), "%T", "VoteTitleCompetitiveFinale", client);
 
 	g_hVote = CreateBuiltinVote(MC_BuiltinVoteActionHandler, BuiltinVoteType_Custom_YesNo, BuiltinVoteAction_Cancel | BuiltinVoteAction_VoteEnd | BuiltinVoteAction_End);
 	if (g_hVote == null)
@@ -431,10 +431,10 @@ void MC_BuiltinVoteResultHandler(Handle vote, int num_votes, int num_clients, co
 				case VOTE_TYPE_EXTEND_MATCH:
 				{
 					char extendPassText[192];
-					Format(extendPassText, sizeof(extendPassText), "%T", "VotePassExtendMatch", LANG_SERVER);
+					Format(extendPassText, sizeof(extendPassText), "%T", "VotePassCompetitiveFinale", LANG_SERVER);
 					DisplayBuiltinVotePass(vote, extendPassText);
-					if (MC_DisableMatchEndMapLimitForCurrentCampaign(true))
-						MC_DebugLog("extend_vote_pass current=%s mode=%d", g_sCurrentMap, g_iMode);
+					if (MC_DisableCompetitiveFinaleForCurrentCampaign(true))
+						MC_Debug(MC_Debug_Announce, "extend_vote_pass current=%s mode=%d", g_sCurrentMap, g_iMode);
 				}
 				case VOTE_TYPE_NEXT_TARGET:
 				{

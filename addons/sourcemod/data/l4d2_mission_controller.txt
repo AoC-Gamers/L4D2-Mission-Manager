@@ -1,168 +1,456 @@
 "MissionControllerSettings"
 {
-	"c1m4_atrium"
+	"maps"
 	{
-		"coop"
+		"c1m4_atrium"
 		{
-			"next_mission_map" "c2m1_highway"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c2m1_highway"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c2m1_highway"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+				"scavenge"
+				{
+					"target"
+					{
+						"map" "c6m1_riverbank"
+						"scope" "map"
+					}
+					"lifecycle"
+					{
+						"natural_end" "scavenge_match_finished"
+					}
+				}
+			}
 		}
-		"versus"
+		"c2m5_concert"
 		{
-			"next_mission_map" "c2m1_highway"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c3m1_plankcountry"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c3m1_plankcountry"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-		"scavenge"
+		"c3m4_plantation"
 		{
-			"next_map" "c6m1_riverbank"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c4m1_milltown_a"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c4m1_milltown_a"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-	}
-	"c2m5_concert"
-	{
-		"coop"
+		"c4m5_milltown_escape"
 		{
-			"next_mission_map" "c3m1_plankcountry"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c5m1_waterfront"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c5m1_waterfront"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-		"versus"
+		"c5m5_bridge"
 		{
-			"next_mission_map" "c3m1_plankcountry"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c6m1_riverbank"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c6m1_riverbank"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-	}
-	"c3m4_plantation"
-	{
-		"coop"
+		"c6m3_port"
 		{
-			"next_mission_map" "c4m1_milltown_a"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c7m1_docks"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c7m1_docks"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-		"versus"
+		"c7m3_port"
 		{
-			"next_mission_map" "c4m1_milltown_a"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c8m1_apartment"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c8m1_apartment"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-	}
-	"c4m5_milltown_escape"
-	{
-		"coop"
+		"c8m5_rooftop"
 		{
-			"next_mission_map" "c5m1_waterfront"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c9m1_alleys"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c9m1_alleys"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-		"versus"
+		"c9m2_lots"
 		{
-			"next_mission_map" "c5m1_waterfront"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c10m1_caves"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c10m1_caves"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-	}
-	"c5m5_bridge"
-	{
-		"coop"
+		"c10m5_houseboat"
 		{
-			"next_mission_map" "c6m1_riverbank"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c11m1_greenhouse"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c11m1_greenhouse"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-		"versus"
+		"c11m5_runway"
 		{
-			"next_mission_map" "c6m1_riverbank"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c12m1_hilltop"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c12m1_hilltop"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-	}
-	"c6m3_port"
-	{
-		"coop"
+		"c12m5_cornfield"
 		{
-			"next_mission_map" "c7m1_docks"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c13m1_alpinecreek"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c13m1_alpinecreek"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-		"versus"
+		"c13m4_cutthroatcreek"
 		{
-			"next_mission_map" "c7m1_docks"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c14m1_junkyard"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c14m1_junkyard"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-	}
-	"c7m3_port"
-	{
-		"coop"
+		"c14m2_lighthouse"
 		{
-			"next_mission_map" "c8m1_apartment"
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c1m1_hotel"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c1m1_hotel"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
 		}
-		"versus"
+		"c1m1_hotel"
 		{
-			"next_mission_map" "c8m1_apartment"
-		}
-	}
-	"c8m5_rooftop"
-	{
-		"coop"
-		{
-			"next_mission_map" "c9m1_alleys"
-		}
-		"versus"
-		{
-			"next_mission_map" "c9m1_alleys"
-		}
-	}
-	"c9m2_lots"
-	{
-		"coop"
-		{
-			"next_mission_map" "c10m1_caves"
-		}
-		"versus"
-		{
-			"next_mission_map" "c10m1_caves"
-		}
-	}
-	"c10m5_houseboat"
-	{
-		"coop"
-		{
-			"next_mission_map" "c11m1_greenhouse"
-		}
-		"versus"
-		{
-			"next_mission_map" "c11m1_greenhouse"
-		}
-	}
-	"c11m5_runway"
-	{
-		"coop"
-		{
-			"next_mission_map" "c12m1_hilltop"
-		}
-		"versus"
-		{
-			"next_mission_map" "c12m1_hilltop"
-		}
-	}
-	"c12m5_cornfield"
-	{
-		"coop"
-		{
-			"next_mission_map" "c13m1_alpinecreek"
-		}
-		"versus"
-		{
-			"next_mission_map" "c13m1_alpinecreek"
-		}
-	}
-	"c13m4_cutthroatcreek"
-	{
-		"coop"
-		{
-			"next_mission_map" "c14m1_junkyard"
-		}
-		"versus"
-		{
-			"next_mission_map" "c14m1_junkyard"
-		}
-	}
-	"c14m2_lighthouse"
-	{
-		"coop"
-		{
-			"next_mission_map" "c1m1_hotel"
-		}
-		"versus"
-		{
-			"next_mission_map" "c1m1_hotel"
-		}
-	}
-	"c1m1_hotel"
-	{
-		"survival"
-		{
-			"next_map" "c2m1_highway"
+			"modes"
+			{
+				"survival"
+				{
+					"target"
+					{
+						"map" "c2m1_highway"
+						"scope" "map"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end"
+					}
+				}
+			}
 		}
 	}
 }

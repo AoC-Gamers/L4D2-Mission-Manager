@@ -13,12 +13,64 @@ bool MM_TryGetRequestedGamemode(int client, int argIndex, int args, int &gamemod
 		return true;
 	}
 
-	ReplyToCommand(client, "Invalid gamemode: %s", gamemodeName);
+	int language = MM_GetReplyLanguage(client);
+	ReplyToCommand(client, "%T %T", "Tag", language, "InvalidGamemode", language, gamemodeName);
 	return false;
+}
+
+int MM_GetReplyLanguage(int client)
+{
+	return client > 0 ? client : LANG_SERVER;
+}
+
+bool MM_CommandCameFromChat(int client)
+{
+	return client > 0 && IsChatTrigger();
+}
+
+ReplySource MM_BeginConsoleCommandOutput(int client, bool &fromChat)
+{
+	fromChat = MM_CommandCameFromChat(client);
+	return SetCmdReplySource(SM_REPLY_TO_CONSOLE);
+}
+
+void MM_EndConsoleCommandOutput(int client, ReplySource previous, bool fromChat)
+{
+	SetCmdReplySource(previous);
+
+	if (fromChat)
+	{
+		int language = MM_GetReplyLanguage(client);
+		ReplyToCommand(client, "%T %T", "Tag", language, "HelpSentToConsole", language);
+	}
+}
+
+void MM_ReplyHelp(int client)
+{
+	int language = MM_GetReplyLanguage(client);
+	ReplyToCommand(client, "%T %T", "Tag", language, "HelpHeader", language);
+	ReplyToCommand(client, "%T %T", "Tag", language, "HelpList", language);
+	ReplyToCommand(client, "%T %T", "Tag", language, "HelpMission", language);
+	ReplyToCommand(client, "%T %T", "Tag", language, "HelpMap", language);
+	ReplyToCommand(client, "%T %T", "Tag", language, "HelpHelp", language);
+}
+
+public Action Command_Help(int client, int args)
+{
+	MM_Debug(MM_Debug_Command, "command_help client=%d args=%d", client, args);
+	bool fromChat;
+	ReplySource previous = MM_BeginConsoleCommandOutput(client, fromChat);
+	MM_ReplyHelp(client);
+	MM_EndConsoleCommandOutput(client, previous, fromChat);
+	return Plugin_Handled;
 }
 
 public Action Command_List(int client, int args)
 {
+	MM_Debug(MM_Debug_Command, "command_list client=%d args=%d", client, args);
+	bool fromChat;
+	ReplySource previous = MM_BeginConsoleCommandOutput(client, fromChat);
+
 	if (args < 1)
 	{
 		for (int i = 0; i < COUNT_MM_GAMEMODE; i++)
@@ -32,31 +84,39 @@ public Action Command_List(int client, int args)
 
 		if (StrEqual("invalid", gamemodeName, false))
 		{
+			int language = MM_GetReplyLanguage(client);
 			int missionCount = L4D2MM_GetNumberOfInvalidMissions();
-			ReplyToCommand(client, "Invalid missions (count:%d):", missionCount);
+			ReplyToCommand(client, "%T %T", "Tag", language, "InvalidMissionsHeader", language, missionCount);
 			for (int iMission = 0; iMission < missionCount; iMission++)
 			{
 				char missionName[LEN_MISSION_NAME];
 				L4D2MM_GetInvalidMissionName(iMission, missionName, sizeof(missionName));
-				ReplyToCommand(client, ", %s", missionName);
+				ReplyToCommand(client, "  - %s", missionName);
 			}
 		}
 		else {
 			int gamemode;
 			if (!MM_InternalTryParseGamemodeArg(gamemodeName, gamemode))
 			{
-				ReplyToCommand(client, "Invalid gamemode: %s", gamemodeName);
+				int language = MM_GetReplyLanguage(client);
+				ReplyToCommand(client, "%T %T", "Tag", language, "InvalidGamemode", language, gamemodeName);
+				MM_EndConsoleCommandOutput(client, previous, fromChat);
 				return Plugin_Handled;
 			}
 
 			DumpMissionInfo(client, gamemode);
 		}
 	}
+	MM_EndConsoleCommandOutput(client, previous, fromChat);
 	return Plugin_Handled;
 }
 
 public Action Command_MissionInfo(int client, int args)
 {
+	MM_Debug(MM_Debug_Command, "command_mission client=%d args=%d", client, args);
+	bool fromChat;
+	ReplySource previous = MM_BeginConsoleCommandOutput(client, fromChat);
+
 	int requestedGamemode;
 	char query[LEN_LOCALIZED_NAME];
 	query[0] = '\0';
@@ -67,7 +127,10 @@ public Action Command_MissionInfo(int client, int args)
 	}
 
 	if (!MM_TryGetRequestedGamemode(client, 2, args, requestedGamemode))
+	{
+		MM_EndConsoleCommandOutput(client, previous, fromChat);
 		return Plugin_Handled;
+	}
 
 	int foundGamemode = GAMEMODE_UNKNOWN;
 	int missionIndex = -1;
@@ -75,22 +138,31 @@ public Action Command_MissionInfo(int client, int args)
 	{
 		if (!MM_FindCurrentMissionInfo(requestedGamemode, foundGamemode, missionIndex))
 		{
-			ReplyToCommand(client, "Could not resolve the current mission.");
+			int language = MM_GetReplyLanguage(client);
+			ReplyToCommand(client, "%T %T", "Tag", language, "CurrentMissionResolveFailed", language);
+			MM_EndConsoleCommandOutput(client, previous, fromChat);
 			return Plugin_Handled;
 		}
 	}
 	else if (!MM_FindMissionInfo(query, requestedGamemode, client, foundGamemode, missionIndex))
 	{
-		ReplyToCommand(client, "Mission not found: %s", query);
+		int language = MM_GetReplyLanguage(client);
+		ReplyToCommand(client, "%T %T", "Tag", language, "MissionNotFound", language, query);
+		MM_EndConsoleCommandOutput(client, previous, fromChat);
 		return Plugin_Handled;
 	}
 
 	DumpMissionDetails(client, foundGamemode, missionIndex);
+	MM_EndConsoleCommandOutput(client, previous, fromChat);
 	return Plugin_Handled;
 }
 
 public Action Command_MapInfo(int client, int args)
 {
+	MM_Debug(MM_Debug_Command, "command_map client=%d args=%d", client, args);
+	bool fromChat;
+	ReplySource previous = MM_BeginConsoleCommandOutput(client, fromChat);
+
 	int requestedGamemode;
 	char mapName[LEN_MAP_FILENAME];
 	mapName[0] = '\0';
@@ -101,7 +173,10 @@ public Action Command_MapInfo(int client, int args)
 	}
 
 	if (!MM_TryGetRequestedGamemode(client, 2, args, requestedGamemode))
+	{
+		MM_EndConsoleCommandOutput(client, previous, fromChat);
 		return Plugin_Handled;
+	}
 
 	int foundGamemode = GAMEMODE_UNKNOWN;
 	int missionIndex = -1;
@@ -110,7 +185,9 @@ public Action Command_MapInfo(int client, int args)
 	{
 		if (!MM_FindCurrentMissionInfo(requestedGamemode, foundGamemode, missionIndex, mapIndex))
 		{
-			ReplyToCommand(client, "Could not resolve the current map.");
+			int language = MM_GetReplyLanguage(client);
+			ReplyToCommand(client, "%T %T", "Tag", language, "CurrentMapResolveFailed", language);
+			MM_EndConsoleCommandOutput(client, previous, fromChat);
 			return Plugin_Handled;
 		}
 	}
@@ -118,17 +195,21 @@ public Action Command_MapInfo(int client, int args)
 		String_ToLower(mapName, mapName, sizeof(mapName));
 		if (!MM_FindMapInfo(mapName, requestedGamemode, foundGamemode, missionIndex, mapIndex))
 		{
-			ReplyToCommand(client, "Map not found: %s", mapName);
+			int language = MM_GetReplyLanguage(client);
+			ReplyToCommand(client, "%T %T", "Tag", language, "MapNotFound", language, mapName);
+			MM_EndConsoleCommandOutput(client, previous, fromChat);
 			return Plugin_Handled;
 		}
 	}
 
 	DumpMapDetails(client, foundGamemode, missionIndex, mapIndex);
+	MM_EndConsoleCommandOutput(client, previous, fromChat);
 	return Plugin_Handled;
 }
 
 void DumpMissionInfo(int client, int gamemode)
 {
+	int language = MM_GetReplyLanguage(client);
 	char gamemodeName[LEN_GAMEMODE_NAME];
 	MM_InternalGamemodeToString(gamemode, gamemodeName, sizeof(gamemodeName));
 
@@ -137,37 +218,38 @@ void DumpMissionInfo(int client, int gamemode)
 	char mapName[LEN_MAP_FILENAME];
 	char localizedName[LEN_LOCALIZED_NAME];
 
-	ReplyToCommand(client, "Gamemode = %s (%d missions)", gamemodeName, missionCount);
+	ReplyToCommand(client, "%T %T", "Tag", language, "ListGamemodeHeader", language, gamemodeName, missionCount);
 
 	for (int iMission = 0; iMission < missionCount; iMission++)
 	{
 		L4D2MM_GetMissionName(gamemode, iMission, missionName, sizeof(missionName));
 		int mapCount = L4D2MM_GetNumberOfMaps(gamemode, iMission);
-		if (L4D2MM_GetMissionLocalizedName(gamemode, iMission, localizedName, sizeof(localizedName), LANG_SERVER) > 0)
+		if (L4D2MM_GetMissionLocalizedName(gamemode, iMission, localizedName, sizeof(localizedName), language) > 0)
 		{
-			ReplyToCommand(client, "%d. %s <%s> %d maps", iMission + 1, missionName, localizedName, mapCount);
+			ReplyToCommand(client, "%T", "ListMissionEntryLocalized", language, iMission + 1, missionName, localizedName, mapCount);
 		}
 		else {
-			ReplyToCommand(client, "%d. !! <%s> (%d maps)", iMission + 1, missionName, mapCount);
+			ReplyToCommand(client, "%T", "ListMissionEntryFallback", language, iMission + 1, missionName, mapCount);
 		}
 
 		for (int iMap = 0; iMap < mapCount; iMap++)
 		{
 			L4D2MM_GetMapName(gamemode, iMission, iMap, mapName, sizeof(mapName));
-			if (L4D2MM_GetMapLocalizedName(gamemode, iMission, iMap, localizedName, sizeof(localizedName), LANG_SERVER) > 0)
+			if (L4D2MM_GetMapLocalizedName(gamemode, iMission, iMap, localizedName, sizeof(localizedName), language) > 0)
 			{
-				ReplyToCommand(client, "> %d. %s <%s>", iMap + 1, localizedName, mapName);
+				ReplyToCommand(client, "%T", "ListMapEntryLocalized", language, iMap + 1, localizedName, mapName);
 			}
 			else {
-				ReplyToCommand(client, "> %d. !! <%s>", iMap + 1, mapName);
+				ReplyToCommand(client, "%T", "ListMapEntryFallback", language, iMap + 1, mapName);
 			}
 		}
 	}
-	ReplyToCommand(client, "-------------------");
+	ReplyToCommand(client, "%T", "Separator", language);
 }
 
 void DumpMissionDetails(int client, int gamemode, int missionIndex)
 {
+	int language = MM_GetReplyLanguage(client);
 	char gamemodeName[LEN_GAMEMODE_NAME];
 	char missionName[LEN_MISSION_NAME];
 	char missionLocalized[LEN_LOCALIZED_NAME];
@@ -177,30 +259,31 @@ void DumpMissionDetails(int client, int gamemode, int missionIndex)
 	MM_InternalGamemodeToString(gamemode, gamemodeName, sizeof(gamemodeName));
 	L4D2MM_GetMissionName(gamemode, missionIndex, missionName, sizeof(missionName));
 	int mapCount = L4D2MM_GetNumberOfMaps(gamemode, missionIndex);
-	bool hasMissionLocalized = L4D2MM_GetMissionLocalizedName(gamemode, missionIndex, missionLocalized, sizeof(missionLocalized), LANG_SERVER) > 0;
+	bool hasMissionLocalized = L4D2MM_GetMissionLocalizedName(gamemode, missionIndex, missionLocalized, sizeof(missionLocalized), language) > 0;
 
-	ReplyToCommand(client, "Mission %s | gamemode=%s | index=%d | maps=%d", missionName, gamemodeName, missionIndex, mapCount);
+	ReplyToCommand(client, "%T", "MissionDetailsHeader", language, missionName, gamemodeName, missionIndex, mapCount);
 	if (hasMissionLocalized)
 	{
-		ReplyToCommand(client, "Localized name: %s", missionLocalized);
+		ReplyToCommand(client, "%T", "MissionLocalizedName", language, missionLocalized);
 	}
 
 	for (int iMap = 0; iMap < mapCount; iMap++)
 	{
 		L4D2MM_GetMapName(gamemode, missionIndex, iMap, mapName, sizeof(mapName));
-		if (L4D2MM_GetMapLocalizedName(gamemode, missionIndex, iMap, mapLocalized, sizeof(mapLocalized), LANG_SERVER) > 0)
+		if (L4D2MM_GetMapLocalizedName(gamemode, missionIndex, iMap, mapLocalized, sizeof(mapLocalized), language) > 0)
 		{
-			ReplyToCommand(client, "%d. %s <%s>", iMap + 1, mapName, mapLocalized);
+			ReplyToCommand(client, "%T", "MissionMapEntryLocalized", language, iMap + 1, mapName, mapLocalized);
 		}
 		else {
-			ReplyToCommand(client, "%d. %s", iMap + 1, mapName);
+			ReplyToCommand(client, "%T", "MissionMapEntryFallback", language, iMap + 1, mapName);
 		}
 	}
-	ReplyToCommand(client, "-------------------");
+	ReplyToCommand(client, "%T", "Separator", language);
 }
 
 void DumpMapDetails(int client, int gamemode, int missionIndex, int mapIndex)
 {
+	int language = MM_GetReplyLanguage(client);
 	char gamemodeName[LEN_GAMEMODE_NAME];
 	char missionName[LEN_MISSION_NAME];
 	char missionLocalized[LEN_LOCALIZED_NAME];
@@ -213,16 +296,16 @@ void DumpMapDetails(int client, int gamemode, int missionIndex, int mapIndex)
 	int uniqueId = L4D2MM_GetMapUniqueID(gamemode, missionIndex, mapIndex);
 	int mapCount = L4D2MM_GetNumberOfMaps(gamemode, missionIndex);
 
-	ReplyToCommand(client, "Map %s | gamemode=%s | mission=%s | map_index=%d/%d | uid=%d", mapName, gamemodeName, missionName, mapIndex + 1, mapCount, uniqueId);
-	if (L4D2MM_GetMissionLocalizedName(gamemode, missionIndex, missionLocalized, sizeof(missionLocalized), LANG_SERVER) > 0)
+	ReplyToCommand(client, "%T", "MapDetailsHeader", language, mapName, gamemodeName, missionName, mapIndex + 1, mapCount, uniqueId);
+	if (L4D2MM_GetMissionLocalizedName(gamemode, missionIndex, missionLocalized, sizeof(missionLocalized), language) > 0)
 	{
-		ReplyToCommand(client, "Mission localized: %s", missionLocalized);
+		ReplyToCommand(client, "%T", "MapMissionLocalized", language, missionLocalized);
 	}
-	if (L4D2MM_GetMapLocalizedName(gamemode, missionIndex, mapIndex, mapLocalized, sizeof(mapLocalized), LANG_SERVER) > 0)
+	if (L4D2MM_GetMapLocalizedName(gamemode, missionIndex, mapIndex, mapLocalized, sizeof(mapLocalized), language) > 0)
 	{
-		ReplyToCommand(client, "Map localized: %s", mapLocalized);
+		ReplyToCommand(client, "%T", "MapLocalizedName", language, mapLocalized);
 	}
-	ReplyToCommand(client, "-------------------");
+	ReplyToCommand(client, "%T", "Separator", language);
 }
 
 bool MM_FindCurrentMissionInfo(int requestedGamemode, int &foundGamemode, int &missionIndex, int &mapIndex = -1)
@@ -294,5 +377,3 @@ bool MM_FindMapInfo(const char[] mapName, int requestedGamemode, int &foundGamem
 
 	return false;
 }
-
-

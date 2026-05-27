@@ -3,12 +3,11 @@
 #endif
 #define _l4d2_mission_manager_included_
 
-#include <left4dhooks>
-
 #define LEN_MISSION_NAME 64		// e.g. L4D2C1
 #define LEN_MAP_FILENAME 64		// e.g. c1m1_hotel
 #define LEN_GAMEMODE_NAME 32	// e.g. coop, versus, scavenge, survival
 #define LEN_LOCALIZED_NAME 64
+#define LIBRARY_L4D2MISSIONMANAGER "l4d2_mission_manager"
 
 /**
  * Converts a gamemode name string to an L4D2MM gamemode.
@@ -165,7 +164,7 @@ forward void OnL4D2MMUpdateList();
 
 public SharedPlugin __pl_l4d2_mission_manager =
 {
-	name = "l4d2_mission_manager",
+	name = LIBRARY_L4D2MISSIONMANAGER,
 	file = "l4d2_mission_manager.smx",
 #if defined REQUIRE_PLUGIN
 	required = 1,

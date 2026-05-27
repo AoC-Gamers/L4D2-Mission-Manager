@@ -149,15 +149,15 @@
 		"en"			"Change next target to {1}?"
 		"es"			"Cambiar el siguiente destino a {1}?"
 	}
-	"VoteTitleExtendMatch"
+	"VoteTitleCompetitiveFinale"
 	{
-		"en"			"Remove the competitive map-end limit and play the real finale?"
-		"es"			"Quitar el limite competitivo por mapa y jugar el final real?"
+		"en"			"Disable the competitive finale and play the real finale?"
+		"es"			"Desactivar el final competitivo y jugar el final real?"
 	}
-	"VotePassExtendMatch"
+	"VotePassCompetitiveFinale"
 	{
-		"en"			"Competitive map-end limit removed"
-		"es"			"Se quitó el limite competitivo por mapa"
+		"en"			"Competitive finale disabled"
+		"es"			"Final competitivo desactivado"
 	}
 	"MCNextMissionCurrent"
 	{
@@ -210,51 +210,91 @@
 		"en"			"No next target configured."
 		"es"			"No hay siguiente destino configurado."
 	}
-	"MatchEndMapOverrideDisabled"
+	"CompetitiveFinaleDisabled"
 	{
-		"en"			"Competitive map-end limit disabled for this campaign."
-		"es"			"El cierre competitivo por mapa quedó desactivado para esta campaña."
+		"en"			"Competitive finale disabled for this campaign."
+		"es"			"El final competitivo quedó desactivado para esta campaña."
 	}
-	"MatchEndMapOverrideEnabled"
+	"CompetitiveFinaleEnabled"
 	{
-		"en"			"Competitive map-end limit enabled again."
-		"es"			"El cierre competitivo por mapa volvió a activarse."
+		"en"			"Competitive finale enabled again."
+		"es"			"El final competitivo volvió a activarse."
 	}
-	"MatchEndMapOverrideUsage"
+	"CompetitiveFinaleUsage"
 	{
-		"en"			"Usage{default}: {olive}!mc_endmap <off|on|status>{default}"
-		"es"			"Uso{default}: {olive}!mc_endmap <off|on|status>{default}"
+		"en"			"Usage{default}: {olive}!mc_finale <off|on|status>{default} (Versus only)"
+		"es"			"Uso{default}: {olive}!mc_finale <off|on|status>{default} (solo Versus)"
 	}
-	"MatchEndMapOverrideStatusUnset"
+	"CompetitiveFinaleStatusUnset"
 	{
-		"en"			"No competitive map-end limit is configured."
-		"es"			"No hay un mapa de cierre competitivo configurado."
+		"en"			"Competitive finale is disabled by cvar."
+		"es"			"El final competitivo está desactivado por cvar."
 	}
-	"MatchEndMapOverrideStatusEnabled"
+	"CompetitiveFinaleStatusEnabled"
 	{
 		"#format"		"{1:d}"
-		"en"			"Competitive map-end limit is active on map {green}{1}{default}."
-		"es"			"El cierre competitivo por mapa está activo en el mapa {green}{1}{default}."
+		"en"			"Competitive finale is active on map {green}{1}{default}."
+		"es"			"El final competitivo está activo en el mapa {green}{1}{default}."
 	}
-	"MatchEndMapOverrideStatusDisabled"
+	"CompetitiveFinaleStatusDisabled"
 	{
 		"#format"		"{1:d}"
-		"en"			"Competitive map-end limit is disabled. Configured map: {green}{1}{default}."
-		"es"			"El cierre competitivo por mapa está desactivado. Mapa configurado: {green}{1}{default}."
+		"en"			"Competitive finale is disabled for this campaign. Finale map: {green}{1}{default}."
+		"es"			"El final competitivo está desactivado para esta campaña. Mapa final: {green}{1}{default}."
 	}
-	"ExtendVoteUnavailable"
+	"CompetitiveFinaleUnavailable"
 	{
-		"en"			"The competitive end-map limit is not active for this campaign."
-		"es"			"El limite competitivo por mapa no está activo para esta campaña."
+		"en"			"The Versus competitive finale is not active for this campaign."
+		"es"			"El final competitivo de Versus no está activo para esta campaña."
 	}
-	"MatchEndMapLimitDisabled"
+	"CompetitiveFinaleAnnounceDisabled"
 	{
-		"en"			"The competitive map-end limit was removed. The real finale map will be played."
-		"es"			"Se quitó el limite competitivo por mapa. Se jugará el mapa final real."
+		"en"			"The competitive finale was removed. The real finale map will be played."
+		"es"			"Se quitó el final competitivo. Se jugará el mapa final real."
 	}
-	"MatchEndMapLimitEnabled"
+	"CompetitiveFinaleAnnounceEnabled"
 	{
-		"en"			"The competitive map-end limit is active again."
-		"es"			"El limite competitivo por mapa volvió a activarse."
+		"en"			"The competitive finale is active again."
+		"es"			"El final competitivo volvió a activarse."
+	}
+	"MCHelpHeader"
+	{
+		"en"			"Available commands:"
+		"es"			"Comandos disponibles:"
+	}
+	"MCHelpSentToConsole"
+	{
+		"en"			"Information sent to your console."
+		"es"			"Informacion enviada a tu consola."
+	}
+	"MCHelpMenu"
+	{
+		"en"			"sm_mc_menu - Open the mission change menu. Admin only."
+		"es"			"sm_mc_menu - Abre el menu de cambio de mision. Solo admin."
+	}
+	"MCHelpVote"
+	{
+		"en"			"sm_mc_vote - Open the vote menu for the next target."
+		"es"			"sm_mc_vote - Abre el menu de votacion para el siguiente destino."
+	}
+	"MCHelpExtend"
+	{
+		"en"			"sm_mc_extend - Start a vote to remove the Versus competitive finale."
+		"es"			"sm_mc_extend - Inicia una votacion para quitar el final competitivo de Versus."
+	}
+	"MCHelpNext"
+	{
+		"en"			"sm_mc_next - Show the current next mission, map or target."
+		"es"			"sm_mc_next - Muestra la siguiente mision, mapa o destino actual."
+	}
+	"MCHelpCompetitiveFinale"
+	{
+		"en"			"sm_mc_finale <off|on|status> - Manage the Versus competitive finale. Admin only."
+		"es"			"sm_mc_finale <off|on|status> - Administra el final competitivo de Versus. Solo admin."
+	}
+	"MCHelpHelp"
+	{
+		"en"			"sm_mc_help - Display this help."
+		"es"			"sm_mc_help - Muestra esta ayuda."
 	}
 }

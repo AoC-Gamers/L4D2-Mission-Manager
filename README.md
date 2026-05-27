@@ -21,6 +21,14 @@ Responsabilidades principales:
 
 La localizacion de campanas y capitulos se resuelve en runtime con `campaign_manager` y su `Localizer`, sin depender de `translations/maps.phrases.txt`.
 
+ConVars principales del manager:
+
+- `sm_mm_debug`
+
+Log principal:
+
+- `addons/sourcemod/logs/sm_mm.log`
+
 ### `l4d2_mission_controller`
 
 Usa la informacion del mission manager para decidir y controlar el flujo del siguiente mapa o cambio de campana.
@@ -39,6 +47,61 @@ Responsabilidades principales:
 - `l4d2_mission_controller` es la capa de decision y control de flujo
 
 El controller depende del manager, pero el manager puede ser consumido por otros plugins sin necesidad del controller.
+
+## Mission Controller API
+
+`l4d2_mission_controller` expone una API publica orientada al destino efectivo y al final competitivo de Versus.
+
+Natives actuales:
+
+- `L4D2MC_HasNextMap()`
+- `L4D2MC_GetNextMap(char[] mapName, int length)`
+- `L4D2MC_GetConfiguredNextMap(char[] mapName, int length)`
+- `L4D2MC_HasVoteOverride()`
+- `L4D2MC_GetVoteOverrideMap(char[] mapName, int length)`
+- `L4D2MC_SetVoteOverrideNextMap(const char[] mapName)`
+- `L4D2MC_ClearVoteOverride()`
+- `L4D2MC_IsCompetitiveFinaleEnabled()`
+- `L4D2MC_WillApplyCompetitiveFinale()`
+- `L4D2MC_IsCurrentMapCompetitiveFinale()`
+- `L4D2MC_SetCompetitiveFinaleDisabled(bool disabled)`
+
+Forwards actuales:
+
+- `L4D2MC_OnNextMapChanged(const char[] mapName, bool voteOverride)`
+- `L4D2MC_OnCompetitiveFinaleChanged(bool enabled, bool active, bool disabled, bool currentMapCompetitiveFinale)`
+
+La declaracion canonica de esta API esta en:
+
+- `addons/sourcemod/scripting/include/l4d2_mission_controller.inc`
+
+## Comandos de Mission Controller
+
+Comando canonico para el final competitivo:
+
+- `sm_mc_finale <off|on|status>`
+
+ConVars principales del controller:
+
+- `sm_mc_debug`
+- `sm_mc_competitive_finale`
+- `sm_mc_enable_modes`
+- `sm_mc_announce`
+- `sm_mc_crec_coop_map`
+- `sm_mc_crec_coop_final`
+- `sm_mc_crec_survival_map`
+
+Log principal:
+
+- `addons/sourcemod/logs/sm_mc.log`
+
+Otros comandos relevantes:
+
+- `sm_mc_menu`
+- `sm_mc_vote`
+- `sm_mc_extend`
+- `sm_mc_next`
+- `sm_mc_help`
 
 ## Build
 

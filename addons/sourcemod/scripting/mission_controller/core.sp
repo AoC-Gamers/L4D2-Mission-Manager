@@ -15,6 +15,54 @@ public Action MC_CommandMissionMenu(int client, int args)
 	return Plugin_Handled;
 }
 
+int MC_GetReplyLanguage(int client)
+{
+	return client > 0 ? client : LANG_SERVER;
+}
+
+bool MC_CommandCameFromChat(int client)
+{
+	return client > 0 && IsChatTrigger();
+}
+
+ReplySource MC_BeginConsoleCommandOutput(int client, bool &fromChat)
+{
+	fromChat = MC_CommandCameFromChat(client);
+	return SetCmdReplySource(SM_REPLY_TO_CONSOLE);
+}
+
+void MC_EndConsoleCommandOutput(int client, ReplySource previous, bool fromChat)
+{
+	SetCmdReplySource(previous);
+
+	if (fromChat)
+	{
+		CPrintToChat(client, "%t %t", "Tag", "MCHelpSentToConsole");
+	}
+}
+
+void MC_ReplyHelp(int client)
+{
+	int language = MC_GetReplyLanguage(client);
+	CReplyToCommand(client, "%T %T", "Tag", language, "MCHelpHeader", language);
+	CReplyToCommand(client, "%T %T", "Tag", language, "MCHelpMenu", language);
+	CReplyToCommand(client, "%T %T", "Tag", language, "MCHelpVote", language);
+	CReplyToCommand(client, "%T %T", "Tag", language, "MCHelpExtend", language);
+	CReplyToCommand(client, "%T %T", "Tag", language, "MCHelpNext", language);
+	CReplyToCommand(client, "%T %T", "Tag", language, "MCHelpCompetitiveFinale", language);
+	CReplyToCommand(client, "%T %T", "Tag", language, "MCHelpHelp", language);
+}
+
+public Action MC_CommandHelp(int client, int args)
+{
+	MC_Debug(MC_Debug_Announce, "command_help client=%d args=%d", client, args);
+	bool fromChat;
+	ReplySource previous = MC_BeginConsoleCommandOutput(client, fromChat);
+	MC_ReplyHelp(client);
+	MC_EndConsoleCommandOutput(client, previous, fromChat);
+	return Plugin_Handled;
+}
+
 public Action MC_CommandMissionVote(int client, int args)
 {
 	if (!MC_IsValidHumanClient(client))
@@ -35,9 +83,9 @@ public Action MC_CommandMatchExtendVote(int client, int args)
 		return Plugin_Handled;
 	}
 
-	if (!MC_CanExtendCurrentCampaign())
+	if (!MC_CanDisableCompetitiveFinaleForCurrentCampaign())
 	{
-		CPrintToChat(client, "%t %t", "Tag", "ExtendVoteUnavailable");
+		CPrintToChat(client, "%t %t", "Tag", "CompetitiveFinaleUnavailable");
 		return Plugin_Handled;
 	}
 
@@ -47,11 +95,14 @@ public Action MC_CommandMatchExtendVote(int client, int args)
 	return Plugin_Handled;
 }
 
-public Action MC_CommandMatchEndMapOverride(int client, int args)
+public Action MC_CommandFinale(int client, int args)
 {
 	if (args < 1)
 	{
-		MC_ReplyMatchEndMapOverrideStatus(client);
+		bool fromChat;
+		ReplySource previous = MC_BeginConsoleCommandOutput(client, fromChat);
+		MC_ReplyCompetitiveFinaleStatus(client);
+		MC_EndConsoleCommandOutput(client, previous, fromChat);
 		return Plugin_Handled;
 	}
 
@@ -60,59 +111,70 @@ public Action MC_CommandMatchEndMapOverride(int client, int args)
 
 	if (StrEqual(arg, "off", false) || StrEqual(arg, "disable", false))
 	{
-		if (!MC_DisableMatchEndMapLimitForCurrentCampaign(true))
+		bool fromChat;
+		ReplySource previous = MC_BeginConsoleCommandOutput(client, fromChat);
+
+		if (!MC_SetCompetitiveFinaleDisabledForCurrentCampaign(true, true))
 		{
-			if (g_bMatchEndMapOverrideDisabled)
-				CReplyToCommand(client, "%T %T", "Tag", client, "MatchEndMapOverrideDisabled", client);
+			if (g_bCompetitiveFinaleDisabled)
+				CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleDisabled", client);
 			else
-				CReplyToCommand(client, "%T %T", "Tag", client, "MatchEndMapOverrideStatusUnset", client);
+				CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleStatusUnset", client);
+			MC_EndConsoleCommandOutput(client, previous, fromChat);
 			return Plugin_Handled;
 		}
-		CReplyToCommand(client, "%T %T", "Tag", client, "MatchEndMapOverrideDisabled", client);
+		CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleDisabled", client);
+		MC_EndConsoleCommandOutput(client, previous, fromChat);
 		return Plugin_Handled;
 	}
 
 	if (StrEqual(arg, "on", false) || StrEqual(arg, "enable", false))
 	{
-		char voteOverrideMap[LEN_MAP_FILENAME];
-		bool hadVoteOverride = g_bHasVoteOverride && g_sVoteNextMap[0] != '\0';
-		if (hadVoteOverride)
-			strcopy(voteOverrideMap, sizeof(voteOverrideMap), g_sVoteNextMap);
-
-		g_bMatchEndMapOverrideDisabled = false;
-		g_sMatchEndOverrideCampaign[0] = '\0';
-		MC_InitializeAutoChangeState();
-		if (hadVoteOverride)
-			MC_ApplyVoteNextMapOverride(voteOverrideMap);
-		MC_AnnounceMatchEndMapLimitEnabledToAll();
-		CReplyToCommand(client, "%T %T", "Tag", client, "MatchEndMapOverrideEnabled", client);
+		bool fromChat;
+		ReplySource previous = MC_BeginConsoleCommandOutput(client, fromChat);
+		if (!MC_SetCompetitiveFinaleDisabledForCurrentCampaign(false, true))
+			CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleStatusUnset", client);
+		else
+			CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleEnabled", client);
+		MC_EndConsoleCommandOutput(client, previous, fromChat);
 		return Plugin_Handled;
 	}
 
 	if (StrEqual(arg, "status", false))
 	{
-		MC_ReplyMatchEndMapOverrideStatus(client);
+		bool fromChat;
+		ReplySource previous = MC_BeginConsoleCommandOutput(client, fromChat);
+		MC_ReplyCompetitiveFinaleStatus(client);
+		MC_EndConsoleCommandOutput(client, previous, fromChat);
 		return Plugin_Handled;
 	}
 
-	CReplyToCommand(client, "%T %T", "Tag", client, "MatchEndMapOverrideUsage", client);
+	bool fromChat;
+	ReplySource previous = MC_BeginConsoleCommandOutput(client, fromChat);
+	CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleUsage", client);
+	MC_EndConsoleCommandOutput(client, previous, fromChat);
 	return Plugin_Handled;
 }
 
 public Action MC_CommandNextTarget(int client, int args)
 {
+	bool fromChat;
+	ReplySource previous = MC_BeginConsoleCommandOutput(client, fromChat);
+
 	if (g_sNextMap[0] == '\0')
 	{
 		if (g_iAnnouncementType == ANNOUNCEMENT_INVALID_MAP)
 			MC_ReplyNextTarget(client, true, g_sAnnounceMap);
 		else
 			MC_ReplyMissingNextTarget(client);
+		MC_EndConsoleCommandOutput(client, previous, fromChat);
 		return Plugin_Handled;
 	}
 
 	char announceTarget[LEN_LOCALIZED_NAME];
 	MC_BuildClientAnnouncementTarget(client, announceTarget, sizeof(announceTarget));
 	MC_ReplyNextTarget(client, false, announceTarget);
+	MC_EndConsoleCommandOutput(client, previous, fromChat);
 	return Plugin_Handled;
 }
 
@@ -140,17 +202,14 @@ bool MC_IsModeEnabled(int gamemode)
 	return false;
 }
 
-bool MC_CanExtendCurrentCampaign()
+bool MC_CanDisableCompetitiveFinaleForCurrentCampaign()
 {
-	return (g_iMode == GAMEMODE_COOP || g_iMode == GAMEMODE_VERSUS)
-		&& g_cvMatchEndMap != null
-		&& g_cvMatchEndMap.IntValue > 0
-		&& !g_bMatchEndMapOverrideDisabled;
+	return g_iMode == GAMEMODE_VERSUS && MC_ShouldApplyCompetitiveFinale();
 }
 
-bool MC_DisableMatchEndMapLimitForCurrentCampaign(bool announce = false)
+bool MC_DisableCompetitiveFinaleForCurrentCampaign(bool announce = false)
 {
-	if (!MC_CanExtendCurrentCampaign())
+	if (!MC_CanDisableCompetitiveFinaleForCurrentCampaign())
 		return false;
 
 	char voteOverrideMap[LEN_MAP_FILENAME];
@@ -159,11 +218,11 @@ bool MC_DisableMatchEndMapLimitForCurrentCampaign(bool announce = false)
 		strcopy(voteOverrideMap, sizeof(voteOverrideMap), g_sVoteNextMap);
 
 	GetCurrentMap(g_sCurrentMap, sizeof(g_sCurrentMap));
-	g_bMatchEndMapOverrideDisabled = true;
-	g_sMatchEndOverrideCampaign[0] = '\0';
-	if (!Campaign_ExtractCampaignCode(g_sCurrentMap, g_sMatchEndOverrideCampaign, sizeof(g_sMatchEndOverrideCampaign)))
+	g_bCompetitiveFinaleDisabled = true;
+	g_sCompetitiveFinaleOverrideCampaign[0] = '\0';
+	if (!Campaign_ExtractCampaignCode(g_sCurrentMap, g_sCompetitiveFinaleOverrideCampaign, sizeof(g_sCompetitiveFinaleOverrideCampaign)))
 	{
-		g_bMatchEndMapOverrideDisabled = false;
+		g_bCompetitiveFinaleDisabled = false;
 		return false;
 	}
 
@@ -172,24 +231,25 @@ bool MC_DisableMatchEndMapLimitForCurrentCampaign(bool announce = false)
 		MC_ApplyVoteNextMapOverride(voteOverrideMap);
 
 	if (announce)
-		MC_AnnounceMatchEndMapLimitDisabledToAll();
+		MC_AnnounceCompetitiveFinaleDisabledToAll();
 
+	MC_SyncCompetitiveFinaleState();
 	return true;
 }
 
-void MC_ReplyMatchEndMapOverrideStatus(int client)
+void MC_ReplyCompetitiveFinaleStatus(int client)
 {
-	int configuredMap = g_cvMatchEndMap != null ? g_cvMatchEndMap.IntValue : -1;
+	int configuredMap = MC_IsCompetitiveFinaleEnabled() ? MC_COMPETITIVE_FINALE_MAP_NUMBER : -1;
 	if (configuredMap < 1)
 	{
-		CReplyToCommand(client, "%T %T", "Tag", client, "MatchEndMapOverrideStatusUnset", client);
+		CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleStatusUnset", client);
 		return;
 	}
 
-	if (g_bMatchEndMapOverrideDisabled)
-		CReplyToCommand(client, "%T %T", "Tag", client, "MatchEndMapOverrideStatusDisabled", client, configuredMap);
+	if (g_bCompetitiveFinaleDisabled)
+		CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleStatusDisabled", client, configuredMap);
 	else
-		CReplyToCommand(client, "%T %T", "Tag", client, "MatchEndMapOverrideStatusEnabled", client, configuredMap);
+		CReplyToCommand(client, "%T %T", "Tag", client, "CompetitiveFinaleStatusEnabled", client, configuredMap);
 }
 
 void MC_ReplyMissingNextTarget(int client)
