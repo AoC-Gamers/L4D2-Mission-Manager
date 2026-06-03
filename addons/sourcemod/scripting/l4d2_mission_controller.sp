@@ -4,7 +4,6 @@
 #include <sourcemod>
 #include <sdktools>
 #include <colors>
-#include <adminmenu>
 #include <builtinvotes>
 #include <l4d2_mission_controller>
 #include <l4d2_mission_manager>
@@ -12,9 +11,7 @@
 
 #undef REQUIRE_PLUGIN
 #include <left4dhooks>
-#define REQUIRE_PLUGIN
-
-#undef REQUIRE_PLUGIN
+#include <adminmenu>
 #include <confogl>
 #include <l4d2_changelevel>
 #define REQUIRE_PLUGIN
