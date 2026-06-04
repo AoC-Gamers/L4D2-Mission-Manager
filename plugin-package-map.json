@@ -1,0 +1,41 @@
+{
+  "build": {
+    "plugins": {
+      "root": [
+        "l4d2_mission_controller",
+        "l4d2_mission_manager"
+      ]
+    }
+  },
+  "artifact": {
+    "addons": {
+      "sourcemod": {
+        "scripting": {
+          "files": [
+            "l4d2_mission_controller.sp",
+            "l4d2_mission_manager.sp"
+          ],
+          "dirs": [
+            "mision_manager",
+            "mission_controller"
+          ],
+          "include": {
+            "files": [
+              "l4d2_mission_controller.inc",
+              "l4d2_mission_manager.inc"
+            ]
+          }
+        },
+        "translations": {
+          "all": true
+        },
+        "data": {
+          "all": true
+        },
+        "gamedata": {
+          "all": true
+        }
+      }
+    }
+  }
+}

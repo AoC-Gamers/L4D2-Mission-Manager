@@ -1,0 +1,456 @@
+"MissionControllerSettings"
+{
+	"maps"
+	{
+		"c1m4_atrium"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c2m1_highway"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c2m1_highway"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+				"scavenge"
+				{
+					"target"
+					{
+						"map" "c6m1_riverbank"
+						"scope" "map"
+					}
+					"lifecycle"
+					{
+						"natural_end" "scavenge_match_finished"
+					}
+				}
+			}
+		}
+		"c2m5_concert"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c3m1_plankcountry"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c3m1_plankcountry"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c3m4_plantation"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c4m1_milltown_a"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c4m1_milltown_a"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c4m5_milltown_escape"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c5m1_waterfront"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c5m1_waterfront"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c5m5_bridge"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c6m1_riverbank"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c6m1_riverbank"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c6m3_port"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c7m1_docks"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c7m1_docks"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c7m3_port"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c8m1_apartment"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c8m1_apartment"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c8m5_rooftop"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c9m1_alleys"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c9m1_alleys"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c9m2_lots"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c10m1_caves"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c10m1_caves"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c10m5_houseboat"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c11m1_greenhouse"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c11m1_greenhouse"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c11m5_runway"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c12m1_hilltop"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c12m1_hilltop"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c12m5_cornfield"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c13m1_alpinecreek"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c13m1_alpinecreek"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c13m4_cutthroatcreek"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c14m1_junkyard"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c14m1_junkyard"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c14m2_lighthouse"
+		{
+			"modes"
+			{
+				"coop"
+				{
+					"target"
+					{
+						"map" "c1m1_hotel"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "finale_win"
+					}
+				}
+				"versus"
+				{
+					"target"
+					{
+						"map" "c1m1_hotel"
+						"scope" "campaign"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end_second_half"
+					}
+				}
+			}
+		}
+		"c1m1_hotel"
+		{
+			"modes"
+			{
+				"survival"
+				{
+					"target"
+					{
+						"map" "c2m1_highway"
+						"scope" "map"
+					}
+					"lifecycle"
+					{
+						"natural_end" "round_end"
+					}
+				}
+			}
+		}
+	}
+}
