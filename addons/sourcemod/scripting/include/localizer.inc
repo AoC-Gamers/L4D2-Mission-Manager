@@ -75,6 +75,7 @@ char LC_TRANSLATION_FILE[] = 		"localizer.phrases.txt";
 #define LC_MAX_TRANSLATION_LENGTH	3072
 #define LC_THREAD_EXECUTION_TIME	0.3
 #define LC_THREAD_WAIT_TIME			0.1
+#define LC_THREAD_MAX_ITEMS_PER_SLICE	32
 #define LC_MAX_SIGNAL_WAIT_TIME		60.0
 #define LC_MAX_PATH_LANG_ENCODED	LC_MAX_LANG_FILE_LENGTH+sizeof(LC_RESOURCE_ENCODED_DIR)+1
 #define LC_MAX_PATH_LANG_DECODED	LC_MAX_LANG_FILE_LENGTH+sizeof(LC_RESOURCE_DECODED_DIR)+1
@@ -1092,9 +1093,10 @@ void Loc_StackProcessingDecode(LC_OP_FLAG flags)
 {
 	g_bLcReady = false;
 
-	float time;
+	float time = 0.0;
 	bool bUpdated;
 	int iFileSize;
+	int processed = 0;
 	static float total_time, max_time;
 	static int iCount, total_file_size, max_size;
 	static char sFile[LC_MAX_LANG_FILE_LENGTH];
@@ -1113,7 +1115,7 @@ void Loc_StackProcessingDecode(LC_OP_FLAG flags)
 		return;
 	}
 	
-	while( time < LC_THREAD_EXECUTION_TIME )
+	while( time < LC_THREAD_EXECUTION_TIME && processed < LC_THREAD_MAX_ITEMS_PER_SLICE )
 	{
 		if( g_hLcStackEncoded.Empty )
 		{
@@ -1131,6 +1133,7 @@ void Loc_StackProcessingDecode(LC_OP_FLAG flags)
 		
 		g_hLcProf.Stop();
 		time += g_hLcProf.Time;
+		processed++;
 		
 		if( max_time < g_hLcProf.Time ) max_time = g_hLcProf.Time;
 		if( bUpdated ) {
@@ -1153,9 +1156,10 @@ public Action Timer_Loc_StackProcessingCache(Handle timer, LC_OP_FLAG flags)
 
 void Loc_StackProcessingCache(LC_OP_FLAG flags)
 {
-	float time;
+	float time = 0.0;
 	bool bUpdated;
 	int iFileSize;
+	int processed = 0;
 	static float total_time, max_time;
 	static int iCount, total_file_size, max_size;
 	static char sFile[LC_MAX_LANG_FILE_LENGTH];
@@ -1172,7 +1176,7 @@ void Loc_StackProcessingCache(LC_OP_FLAG flags)
 		return;
 	}
 	
-	while( time < LC_THREAD_EXECUTION_TIME )
+	while( time < LC_THREAD_EXECUTION_TIME && processed < LC_THREAD_MAX_ITEMS_PER_SLICE )
 	{
 		if( g_hLcStackCache.Empty )
 		{
@@ -1214,6 +1218,7 @@ void Loc_StackProcessingCache(LC_OP_FLAG flags)
 		g_hLcProf.Stop();
 		
 		time += g_hLcProf.Time;
+		processed++;
 		
 		if( max_time < g_hLcProf.Time ) max_time = g_hLcProf.Time;
 		if( bUpdated )
